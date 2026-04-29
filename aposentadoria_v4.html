@@ -1,0 +1,3892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Livre · Planejamento de Aposentadoria</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D998;
+    --gold-pale: #FAF3DC;
+    --dark: #1A1A18;
+    --dark-mid: #2C2B27;
+    --charcoal: #3D3C37;
+    --warm-gray: #7A7970;
+    --light-warm: #F4F1EB;
+    --cream: #FDFAF3;
+    --white: #FFFFFF;
+    --green: #2E6B4F;
+    --green-light: #E8F5EE;
+    --red-soft: #8B3A3A;
+    --red-bg: #F9EEEE;
+    --blue-accent: #2A4E7A;
+    --blue-bg: #EEF3FA;
+    --radius: 16px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 40px rgba(26,26,24,0.10);
+    --shadow-sm: 0 2px 16px rgba(26,26,24,0.07);
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--dark);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    transition: color var(--transition);
+  }
+
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 6rem 2rem 5rem;
+    text-align: center;
+    /* overflow: hidden; */
+    height: 500px;
+      z-index: 0;
+}
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('https://i.imgur.com/5OL8OUy.jpeg') no-repeat center/cover;
+    z-index: -1;
+
+  }
+
+  .hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 700px;
+    margin: 0 auto 1.25rem;
+    font-weight: 700;
+  }
+
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.55);
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition);
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.75);
+  }
+
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* PROGRESS TRACKER */
+  .tracker {
+    background: var(--white);
+    border-bottom: 1px solid rgba(26,26,24,0.07);
+    padding: 1.5rem 2rem;
+    overflow-x: auto;
+  }
+
+  .tracker-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 960px;
+    margin: 0 auto;
+    min-width: 600px;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--light-warm);
+    border: 2px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--warm-gray);
+    flex-shrink: 0;
+    transition: all var(--transition);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    margin-left: 8px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .step-line {
+    flex: 1;
+    height: 2px;
+    background: #ddd;
+    margin: 0 8px;
+    transition: background var(--transition);
+  }
+
+  .step-item.active .step-num {
+    background: var(--dark);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .step-item.active .step-label { color: var(--dark); font-weight: 500; }
+  .step-item.done .step-num { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+  .step-item.done + .step-line { background: var(--gold); }
+  .step-item.done .step-label { color: var(--charcoal); }
+
+  /* MAIN */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-num {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header p {
+    color: var(--warm-gray);
+    font-size: 0.95rem;
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid rgba(26,26,24,0.08);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--dark);
+    margin-bottom: 0.25rem;
+  }
+
+  .card-sub {
+    font-size: 0.8rem;
+    color: var(--warm-gray);
+    margin-bottom: 1.25rem;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+  @media (max-width: 680px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+  }
+
+  /* FORM ELEMENTS */
+  label.field-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  input[type="number"], input[type="text"], select {
+    width: 100%;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(26,26,24,0.15);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--dark);
+    transition: border-color var(--transition);
+    outline: none;
+  }
+
+  input:focus, select:focus { border-color: var(--gold); }
+
+  .field-group { margin-bottom: 1.25rem; }
+
+  .field-hint {
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    margin-top: 0.3rem;
+  }
+
+  /* INSS RULES TABLE */
+  .rules-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+  }
+
+  .rules-table th {
+    background: var(--light-warm);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    border-bottom: 1px solid rgba(26,26,24,0.1);
+  }
+
+  .rules-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(26,26,24,0.06);
+    color: var(--charcoal);
+  }
+
+  .rules-table tr:last-child td { border-bottom: none; }
+  .rules-table tr:hover td { background: rgba(201,168,76,0.04); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .badge-female { background: #F5E6F5; color: #7A3A7A; }
+  .badge-male { background: #E3EBF9; color: #2A4E7A; }
+  .badge-gold { background: var(--gold-pale); color: #7A5A10; }
+
+  /* RESULT PANEL */
+  .result-panel {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-mid) 100%);
+    border-radius: var(--radius);
+    padding: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.08);
+  }
+
+  .result-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+
+  .result-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .result-sub { color: rgba(255,255,255,0.65); font-size: 0.875rem; margin-top: 0.5rem; }
+
+  /* METRIC CARDS */
+  .metric-card {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(26,26,24,0.08);
+    padding: 1.1rem 1.25rem;
+  }
+
+  .metric-card .metric-label {
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    font-weight: 400;
+    margin-bottom: 0.35rem;
+  }
+
+  .metric-card .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--dark);
+  }
+
+  .metric-card .metric-sub {
+    font-size: 0.72rem;
+    color: var(--warm-gray);
+    margin-top: 0.2rem;
+  }
+
+  /* INVESTMENT TABLE */
+  .inv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .inv-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    border-bottom: 2px solid rgba(26,26,24,0.08);
+    font-weight: 500;
+  }
+
+  .inv-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(26,26,24,0.06);
+    vertical-align: top;
+  }
+
+  .inv-table tr:last-child td { border-bottom: none; }
+  .inv-table tr:hover td { background: rgba(201,168,76,0.03); }
+
+  .inv-name {
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 0.2rem;
+  }
+
+  .inv-detail {
+    font-size: 0.78rem;
+    color: var(--warm-gray);
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  .tag-safe { background: var(--green-light); color: var(--green); }
+  .tag-moderate { background: #FFF3E0; color: #A05000; }
+  .tag-growth { background: var(--blue-bg); color: var(--blue-accent); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(26,26,24,0.06);
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: 2px;
+  }
+
+  .check-icon.checked {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+  }
+
+  .check-icon.checked::after { content: '✓'; font-size: 0.7rem; font-weight: 700; }
+
+  .check-text h4 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 0.2rem;
+  }
+
+  .check-text p {
+    font-size: 0.78rem;
+    color: var(--warm-gray);
+    line-height: 1.5;
+  }
+
+  /* RANGE SLIDER */
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--gold);
+    height: 4px;
+    cursor: pointer;
+  }
+
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .slider-row label { min-width: 140px; font-size: 0.82rem; color: var(--charcoal); font-weight: 400; }
+  .slider-row input { flex: 1; }
+  .slider-val {
+    min-width: 90px;
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark);
+  }
+
+  /* NAV BUTTONS */
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(26,26,24,0.08);
+  }
+
+  .btn-dark {
+    background: var(--dark);
+    color: var(--white);
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+  }
+
+  .btn-dark:hover { background: var(--charcoal); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--warm-gray);
+    padding: 0.75rem 1.75rem;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    border: 1px solid rgba(26,26,24,0.12);
+    transition: all var(--transition);
+  }
+
+  .btn-ghost:hover { color: var(--dark); border-color: rgba(26,26,24,0.3); }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--light-warm);
+    border-radius: 100px;
+    height: 6px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 100px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--gold-pale);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .highlight-box strong {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #7A5A10;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .highlight-box p {
+    font-size: 0.875rem;
+    color: #5A4008;
+  }
+
+  .info-box {
+    background: var(--blue-bg);
+    border-left: 3px solid var(--blue-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .info-box strong {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--blue-accent);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .info-box p { font-size: 0.875rem; color: #1A3A5A; }
+
+  /* SUMMARY */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .summary-item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(26,26,24,0.08);
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .summary-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .summary-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .summary-lbl {
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+  }
+
+  /* CHART */
+  .chart-area {
+    position: relative;
+    height: 200px;
+    margin: 1.5rem 0;
+  }
+
+  canvas { max-width: 100%; }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid rgba(26,26,24,0.07);
+    margin: 2rem 0;
+  }
+
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ─── CLIENT DB PANEL ─── */
+  .db-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 380px;
+    background: var(--white);
+    box-shadow: -8px 0 40px rgba(26,26,24,0.18);
+    z-index: 500;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+  }
+  .db-panel.open { transform: translateX(0); }
+  .db-panel-header {
+    background: var(--dark);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .db-panel-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1rem;
+  }
+  .db-panel-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: rgba(255,255,255,0.7);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background 0.2s;
+  }
+  .db-panel-close:hover { background: rgba(255,255,255,0.2); }
+  .db-panel-body { flex: 1; overflow-y: auto; padding: 1.25rem; }
+  .db-profile-card {
+    border: 1px solid rgba(26,26,24,0.1);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--cream);
+  }
+  .db-profile-card:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .db-profile-card.active { border-color: var(--gold); background: var(--gold-pale); }
+  .db-profile-name { font-weight: 600; font-size: 0.9rem; color: var(--dark); margin-bottom: 0.2rem; }
+  .db-profile-email { font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 0.5rem; }
+  .db-profile-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .db-tag {
+    font-size: 0.68rem; font-weight: 600; padding: 2px 8px;
+    border-radius: 4px; background: var(--light-warm); color: var(--charcoal);
+  }
+  .db-tag.gold { background: var(--gold-pale); color: #7A5A10; }
+  .db-empty {
+    text-align: center; padding: 2rem 1rem;
+    color: var(--warm-gray); font-size: 0.875rem;
+  }
+  .db-save-toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--dark); color: var(--gold-light);
+    padding: 0.7rem 1.4rem; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    opacity: 0; pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 9999;
+  }
+  .db-save-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .db-btn-save {
+    width: 100%; padding: 0.7rem;
+    background: var(--gold); color: var(--dark);
+    border: none; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.2s;
+    margin-bottom: 0.75rem;
+  }
+  .db-btn-save:hover { background: var(--gold-light); }
+  .db-section-label {
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--warm-gray);
+    margin: 1rem 0 0.5rem;
+  }
+  .db-stat-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(26,26,24,0.06);
+    color: var(--charcoal);
+  }
+  .db-stat-row strong { color: var(--dark); }
+  .db-panel-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    z-index: 499; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .db-panel-overlay.open { opacity: 1; pointer-events: all; }
+  @media (max-width: 680px) {
+    .db-panel { width: 100%; }
+  }
+
+  /* ─── HERO BLUR BACKGROUND ─── */
+  .hero-bg-blur {
+    position: absolute;
+    inset: -30px;
+    background: url('Design_sem_nome.svg') center/cover no-repeat;
+    filter: blur(18px) brightness(0.35) saturate(0.7);
+    transform: scale(1.08);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero > *:not(.hero-bg-blur) { position: relative; z-index: 1; }
+
+  /* ─── SLIDE NAVIGATION ─── */
+  .section {
+    display: none;
+    animation: none;
+  }
+  .section.active {
+    display: block;
+  }
+  .section.slide-in-right {
+    animation: slideInRight 0.42s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .section.slide-in-left {
+    animation: slideInLeft 0.42s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─── NAV AUTH BUTTON ─── */
+  .nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .btn-nav-auth {
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+    background: transparent;
+    letter-spacing: 0.02em;
+  }
+  .btn-nav-auth:hover { background: rgba(201,168,76,0.12); border-color: var(--gold); }
+  .btn-nav-auth.primary { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+  .btn-nav-auth.primary:hover { background: var(--gold-light); }
+
+  /* ─── AUTH MODAL ─── */
+  .auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,8,0.82);
+    backdrop-filter: blur(6px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .auth-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .auth-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 1rem;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .auth-overlay.open .auth-card {
+    transform: translateY(0) scale(1);
+  }
+  .auth-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  .auth-tagline {
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--warm-gray);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .auth-tabs {
+    display: flex;
+    background: var(--light-warm);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 1.75rem;
+    gap: 4px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 0.55rem;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    background: transparent;
+    color: var(--warm-gray);
+    transition: all 0.2s ease;
+  }
+  .auth-tab.active {
+    background: var(--white);
+    color: var(--dark);
+    box-shadow: 0 2px 8px rgba(26,26,24,0.1);
+  }
+  .auth-form { display: none; }
+  .auth-form.active { display: block; animation: slideInRight 0.3s ease; }
+  .auth-field { margin-bottom: 1.1rem; }
+  .auth-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .auth-field input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 1.5px solid rgba(26,26,24,0.12);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--dark);
+    transition: border-color var(--transition);
+    outline: none;
+    box-sizing: border-box;
+  }
+  .auth-field input:focus { border-color: var(--gold); background: var(--white); }
+  .auth-submit {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+  .auth-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .auth-submit:active { transform: translateY(0); }
+  .auth-divider {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    margin: 1.1rem 0;
+    position: relative;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content:''; position:absolute; top:50%; width:42%; height:1px;
+    background:rgba(26,26,24,0.1);
+  }
+  .auth-divider::before { left:0; } .auth-divider::after { right:0; }
+  .auth-social {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
+  }
+  .auth-social-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border: 1.5px solid rgba(26,26,24,0.12);
+    border-radius: 10px;
+    background: var(--white);
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .auth-social-btn:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .auth-skip {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.78rem;
+    color: var(--warm-gray);
+  }
+  .auth-skip a { color: var(--gold); text-decoration: none; cursor: pointer; }
+  .auth-skip a:hover { text-decoration: underline; }
+  .auth-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px; height: 30px;
+    border: none;
+    background: var(--light-warm);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--warm-gray);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .auth-close:hover { background: var(--gold-pale); color: var(--dark); }
+  .auth-error {
+    background: var(--red-bg);
+    border: 1px solid rgba(139,58,58,0.2);
+    color: var(--red-soft);
+    font-size: 0.8rem;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    margin-bottom: 0.9rem;
+    display: none;
+  }
+  .auth-success {
+    background: var(--green-light);
+    border: 1px solid rgba(46,107,79,0.2);
+    color: var(--green);
+    font-size: 0.82rem;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.9rem;
+    text-align: center;
+    display: none;
+    font-weight: 500;
+  }
+  .auth-user-badge {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 100px;
+    padding: 5px 12px 5px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .auth-user-badge:hover { background: rgba(201,168,76,0.2); }
+  .auth-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .auth-user-name { font-size: 0.78rem; color: var(--gold-light); font-weight: 500; }
+
+  /* ─── CARTEIRA IA PROPOSAL ─── */
+  .portfolio-proposal-card {
+    border: 1px solid rgba(201,168,76,0.3);
+    background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, rgba(255,255,255,1) 60%);
+  }
+  .alloc-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 0.75rem 0;
+    gap: 2px;
+  }
+  .alloc-segment {
+    height: 100%;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    border-radius: 100px;
+  }
+
+  /* ─── OPEN FINANCE ─── */
+  .of-card {
+    border: 1.5px solid rgba(42,78,122,0.25);
+    background: linear-gradient(135deg, #EEF3FA 0%, #FFFFFF 60%);
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .of-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(42,78,122,0.06);
+    pointer-events: none;
+  }
+  .of-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(42,78,122,0.1);
+    border: 1px solid rgba(42,78,122,0.2);
+    color: var(--blue-accent);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  .of-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue-accent);
+    animation: ofPulse 2s ease-in-out infinite;
+  }
+  @keyframes ofPulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .of-institutions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  .of-inst-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(26,26,24,0.1);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--charcoal);
+  }
+  .of-inst-chip:hover { border-color: var(--blue-accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(42,78,122,0.12); }
+  .of-inst-chip.connected { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .of-inst-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .of-status-bar {
+    background: var(--green-light);
+    border: 1px solid rgba(46,107,79,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    color: var(--green);
+    font-weight: 500;
+    display: none;
+  }
+  .of-imported-summary {
+    display: none;
+    margin-top: 1.25rem;
+  }
+  .of-accounts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .of-account-card {
+    background: var(--white);
+    border: 1px solid rgba(26,26,24,0.08);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .of-account-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .of-account-card.checking::after { background: var(--blue-accent); }
+  .of-account-card.savings::after  { background: var(--green); }
+  .of-account-card.invest::after   { background: var(--gold); }
+  .of-account-card.pension::after  { background: #7B5EA7; }
+  .of-acc-bank { font-size: 0.7rem; color: var(--warm-gray); margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .of-acc-type { font-size: 0.78rem; color: var(--charcoal); margin-bottom: 0.4rem; }
+  .of-acc-val  { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--dark); }
+  .of-acc-tag  { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; margin-top: 0.3rem; }
+
+  /* ─── OPEN FINANCE MODAL ─── */
+  .of-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,10,8,0.6);
+    backdrop-filter: blur(6px);
+    z-index: 600;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .of-overlay.open { opacity: 1; pointer-events: all; }
+  .of-modal {
+    background: var(--white);
+    border-radius: 20px;
+    width: 100%; max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(10,10,8,0.3);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .of-overlay.open .of-modal { transform: translateY(0) scale(1); }
+  .of-modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(26,26,24,0.07);
+    position: sticky; top: 0;
+    background: var(--white);
+    border-radius: 20px 20px 0 0;
+    z-index: 2;
+  }
+  .of-modal-logo {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 0.25rem;
+  }
+  .of-modal-logo-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1A4B8C, #2A7BE4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .of-modal-logo-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); }
+  .of-modal-sub { font-size: 0.78rem; color: var(--warm-gray); }
+  .of-modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 32px; height: 32px;
+    border: none; background: var(--light-warm);
+    border-radius: 50%; cursor: pointer;
+    font-size: 0.875rem; color: var(--warm-gray);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .of-modal-close:hover { background: var(--gold-pale); color: var(--dark); }
+  .of-modal-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .of-step { display: none; }
+  .of-step.active { display: block; animation: fadeIn 0.3s ease; }
+  .of-inst-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .of-inst-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(26,26,24,0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+  }
+  .of-inst-row:hover { border-color: var(--blue-accent); background: var(--blue-bg); }
+  .of-inst-row.selected { border-color: var(--blue-accent); background: var(--blue-bg); }
+  .of-inst-logo {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .of-inst-info h4 { font-size: 0.875rem; font-weight: 500; color: var(--dark); margin-bottom: 2px; }
+  .of-inst-info p  { font-size: 0.75rem; color: var(--warm-gray); }
+  .of-inst-arrow   { margin-left: auto; color: var(--warm-gray); font-size: 1rem; transition: transform 0.2s; }
+  .of-inst-row:hover .of-inst-arrow, .of-inst-row.selected .of-inst-arrow { transform: translateX(3px); color: var(--blue-accent); }
+
+  .of-consent-box {
+    background: var(--blue-bg);
+    border: 1px solid rgba(42,78,122,0.15);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 0.82rem;
+    color: #1A3A5A;
+    line-height: 1.6;
+  }
+  .of-consent-items { list-style: none; margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .of-consent-items li { display: flex; align-items: flex-start; gap: 8px; }
+  .of-consent-items li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .of-loading-wrap {
+    text-align: center; padding: 2rem 1rem;
+  }
+  .of-spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--blue-bg);
+    border-top-color: var(--blue-accent);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 1.25rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .of-progress-steps { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; text-align: left; }
+  .of-prog-item { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--warm-gray); }
+  .of-prog-item.done { color: var(--green); }
+  .of-prog-item.active { color: var(--blue-accent); font-weight: 500; }
+  .of-prog-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; }
+  .of-prog-item.done .of-prog-icon   { background: var(--green-light); color: var(--green); }
+  .of-prog-item.active .of-prog-icon { background: var(--blue-bg); color: var(--blue-accent); animation: ofPulse 1.2s ease infinite; }
+  .of-prog-item.pending .of-prog-icon { background: var(--light-warm); color: var(--warm-gray); }
+
+  .of-success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--green-light);
+    border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.75rem;
+    margin: 0 auto 1.25rem;
+    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .of-imported-items { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; max-height: 260px; overflow-y: auto; }
+  .of-imported-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--light-warm);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1rem;
+    font-size: 0.82rem;
+  }
+  .of-imported-row-left { display: flex; align-items: center; gap: 10px; }
+  .of-imported-row-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .of-imported-row-info h5 { font-size: 0.8rem; font-weight: 500; color: var(--dark); margin-bottom: 1px; }
+  .of-imported-row-info p  { font-size: 0.7rem; color: var(--warm-gray); }
+  .of-imported-row-val { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--dark); }
+
+  .of-security-note {
+    display: flex; align-items: flex-start; gap: 8px;
+    background: rgba(46,107,79,0.06);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    color: var(--green);
+    margin-top: 1rem;
+  }
+  .of-btn-primary {
+    width: 100%; padding: 0.85rem;
+    background: var(--blue-accent);
+    color: white; border: none;
+    border-radius: 100px;
+    font-size: 0.875rem; font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.75rem;
+  }
+  .of-btn-primary:hover { background: #1A3A6A; transform: translateY(-1px); }
+  .of-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .of-btn-secondary {
+    width: 100%; padding: 0.75rem;
+    background: transparent; color: var(--warm-gray);
+    border: 1px solid rgba(26,26,24,0.12);
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+  .of-btn-secondary:hover { color: var(--dark); border-color: rgba(26,26,24,0.3); }
+
+  .of-search-bar {
+    width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem;
+    border-radius: 100px;
+    border: 1.5px solid rgba(26,26,24,0.12);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .of-search-bar:focus { border-color: var(--blue-accent); }
+  .of-search-wrap { position: relative; margin-bottom: 0.25rem; }
+  .of-search-icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--warm-gray); font-size: 0.875rem; pointer-events: none; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Plano Livre</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="goTo(0)">Diagnóstico</a></li>
+    <li><a href="#" onclick="goTo(1)">Estilo de Vida</a></li>
+    <li><a href="#" onclick="goTo(2)">Investimentos</a></li>
+    <li><a href="#" onclick="goTo(3)">Carteira</a></li>
+    <li><a href="#" onclick="goTo(4)">Resumo</a></li>
+  </ul>
+  <div class="nav-auth">
+    <div id="nav-guest" style="display:flex;gap:0.5rem;">
+      <button class="btn-nav-auth" onclick="openAuth('login')">Entrar</button>
+      <button class="btn-nav-auth primary" onclick="openAuth('signup')">Criar conta</button>
+    </div>
+    <div id="nav-user" style="display:none;align-items:center;gap:0.5rem;">
+      <button class="btn-nav-auth" onclick="openDbPanel()" title="Perfil salvo" style="display:flex;align-items:center;gap:5px;padding:0.45rem 0.9rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 20v-1a8 8 0 0 1 16 0v1"/><circle cx="12" cy="8" r="4"/></svg>
+        <span id="nav-username">Cliente</span>
+      </button>
+      <button class="btn-nav-auth" onclick="logoutUser()" style="padding:0.45rem 0.75rem;font-size:0.75rem;opacity:0.6;" title="Sair">↩</button>
+    </div>
+  </div>
+</nav>
+
+<!-- DB PANEL OVERLAY -->
+<div class="db-panel-overlay" id="db-overlay" onclick="closeDbPanel()"></div>
+
+<!-- DB PANEL -->
+<div class="db-panel" id="db-panel">
+  <div class="db-panel-header">
+    <div class="db-panel-title">🗂 Banco de Clientes</div>
+    <button class="db-panel-close" onclick="closeDbPanel()">✕</button>
+  </div>
+  <div class="db-panel-body">
+    <div class="db-section-label">Dados do cliente logado</div>
+    <div id="db-current-profile">
+      <p style="font-size:0.8rem;color:var(--warm-gray);">Faça login para salvar seu perfil.</p>
+    </div>
+    <button class="db-btn-save" id="db-save-btn" onclick="saveClientProfile()" style="display:none;">
+      💾 Salvar / Atualizar perfil
+    </button>
+    <div class="db-section-label" style="margin-top:1.5rem;">Todos os clientes cadastrados</div>
+    <div id="db-clients-list">
+      <div class="db-empty">Nenhum cliente cadastrado ainda.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE TOAST -->
+<div class="db-save-toast" id="db-toast">✓ Perfil salvo com sucesso!</div>
+
+<div class="hero">
+  <div class="hero-bg-blur"></div>
+  <div class="hero-badge">🌿 Planejamento de Aposentadoria</div>
+  <h1>Sua liberdade financeira começa <em>aqui</em></h1>
+  <p>Um guia completo para mapear onde você está, definir onde quer chegar e traçar a rota de investimentos para uma aposentadoria com dignidade.</p>
+  <div class="hero-cta">
+    <button class="btn btn-gold" onclick="slideTo(0); setTimeout(()=>document.querySelector('.tracker').scrollIntoView({behavior:'smooth',block:'start'}),100)">Começar agora →</button>
+    <button class="btn btn-outline" onclick="slideTo(2); setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),100)">Ver investimentos</button>
+  </div>
+</div>
+
+<!-- PROGRESS TRACKER -->
+<div class="tracker">
+  <div class="tracker-inner">
+    <div class="step-item active" id="step-0" onclick="goTo(0)">
+      <div class="step-num">1</div>
+      <span class="step-label">Diagnóstico INSS</span>
+    </div>
+    <div class="step-line" id="line-0"></div>
+    <div class="step-item" id="step-1" onclick="goTo(1)">
+      <div class="step-num">2</div>
+      <span class="step-label">Estilo de vida</span>
+    </div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-item" id="step-2" onclick="goTo(2)">
+      <div class="step-num">3</div>
+      <span class="step-label">Investimentos</span>
+    </div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-item" id="step-3" onclick="goTo(3)">
+      <div class="step-num">4</div>
+      <span class="step-label">Carteira viva</span>
+    </div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step-item" id="step-4" onclick="goTo(4)">
+      <div class="step-num">5</div>
+      <span class="step-label">Resumo do plano</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- SECTION 1: DIAGNÓSTICO -->
+  <div class="section active" id="section-0">
+    <div class="section-header">
+      <div class="section-num">Etapa 01 de 05</div>
+      <h2>Mapeamento & Diagnóstico</h2>
+      <p>Antes de investir, descubra o que o Estado já garante para você. O INSS é a base — mas raramente é suficiente.</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>Ação necessária</strong>
+      <p>Acesse <a href="https://meu.inss.gov.br" target="_blank" style="color:#7A5A10;font-weight:500;">meu.inss.gov.br</a> ou baixe o aplicativo Meu INSS para baixar o CNIS e simular sua aposentadoria com dados reais.</p>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card">
+        <div class="card-title">Dados pessoais</div>
+        <div class="card-sub">Informe para calcular sua elegibilidade</div>
+        <div class="field-group">
+          <label class="field-label">Gênero</label>
+          <select id="genero" onchange="updateSimulacao()">
+            <option value="F">Feminino</option>
+            <option value="M">Masculino</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Idade atual (anos)</label>
+          <input type="number" id="idade" value="35" min="16" max="80" onchange="updateSimulacao()">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tempo de contribuição (anos)</label>
+          <input type="number" id="contribuicao" value="12" min="0" max="50" onchange="updateSimulacao()">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Salário médio de contribuição (R$)</label>
+          <input type="number" id="salario" value="4500" min="1412" onchange="updateSimulacao()">
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="result-panel" id="simulacao-result">
+          <div class="result-label">Estimativa de benefício</div>
+          <div class="result-big" id="beneficio-val">R$ 2.160</div>
+          <div class="result-sub" id="beneficio-sub">60% do salário médio · Base 2026</div>
+          <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.1);">
+            <div class="result-label">Anos para se aposentar</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:white;margin-top:0.3rem;" id="anos-faltam">— anos</div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Pontos acumulados</div>
+          <div class="metric-value" id="pontos-atuais">47</div>
+          <div class="metric-sub">Idade + tempo de contribuição</div>
+          <div class="progress-bar-wrap" style="margin-top:0.75rem;">
+            <div class="progress-bar-fill" id="pontos-bar" style="width:40%;"></div>
+          </div>
+          <div style="font-size:0.72rem;color:var(--warm-gray);margin-top:0.3rem;" id="pontos-meta">Meta: 93 pts (Feminino)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem;">Regras de aposentadoria 2026</div>
+      <div class="card-sub">As duas principais rotas para requisitar o benefício do INSS</div>
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th>Regra</th>
+            <th>Mulheres</th>
+            <th>Homens</th>
+            <th>Obs.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pontos</strong><br><span style="font-size:0.78rem;color:var(--warm-gray)">Idade + contribuição</span></td>
+            <td><span class="badge badge-female">93 pontos</span></td>
+            <td><span class="badge badge-male">103 pontos</span></td>
+            <td style="font-size:0.78rem;color:var(--warm-gray)">Mínimo 30 anos de contribuição</td>
+          </tr>
+          <tr>
+            <td><strong>Idade mínima progressiva</strong><br><span style="font-size:0.78rem;color:var(--warm-gray)">Transição da reforma</span></td>
+            <td><span class="badge badge-female">59 anos e 6 meses</span></td>
+            <td><span class="badge badge-male">64 anos e 6 meses</span></td>
+            <td style="font-size:0.78rem;color:var(--warm-gray)">Cresce 6 meses/ano até limite</td>
+          </tr>
+          <tr>
+            <td><strong>Contribuição mínima</strong></td>
+            <td><span class="badge badge-female">30 anos</span></td>
+            <td><span class="badge badge-male">35 anos</span></td>
+            <td style="font-size:0.78rem;color:var(--warm-gray)">Requisito base</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box" style="margin-top:1.5rem;">
+      <strong>Dica importante</strong>
+      <p>Baixe o CNIS (Cadastro Nacional de Informações Sociais) e verifique se <strong>todos</strong> os períodos trabalhados estão registrados. Períodos não computados reduzem seu benefício e podem atrasar a aposentadoria.</p>
+    </div>
+
+    <ul class="checklist" style="margin-top:1.5rem;">
+      <li>
+        <div class="check-icon" onclick="toggleCheck(this)"></div>
+        <div class="check-text">
+          <h4>Baixar aplicativo Meu INSS</h4>
+          <p>Disponível para Android e iOS. Acesso a extrato, simulação e agendamento de perícia.</p>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon" onclick="toggleCheck(this)"></div>
+        <div class="check-text">
+          <h4>Baixar e verificar o CNIS</h4>
+          <p>Confira se todos os empregos, salários e períodos contribuídos estão corretos.</p>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon" onclick="toggleCheck(this)"></div>
+        <div class="check-text">
+          <h4>Usar a simulação oficial do INSS</h4>
+          <p>A ferramenta usa seus dados reais de contribuição para uma estimativa mais precisa.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-btns">
+      <span></span>
+      <button class="btn-dark" onclick="goTo(1)">Próximo: Estilo de vida →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2: ESTILO DE VIDA -->
+  <div class="section" id="section-1">
+    <div class="section-header">
+      <div class="section-num">Etapa 02 de 05</div>
+      <h2>Definição do Estilo de Vida</h2>
+      <p>Não existe valor "mágico" para se aposentar. O número certo é aquele que sustenta o seu padrão de vida — com segurança e por décadas.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="card-title">Calculadora da regra dos 4%</div>
+      <div class="card-sub">Estime o patrimônio necessário para gerar a renda que você deseja</div>
+
+      <div class="slider-row">
+        <label>Renda mensal desejada</label>
+        <input type="range" id="renda-slider" min="1000" max="30000" step="500" value="5000" oninput="updateRenda()">
+        <span class="slider-val" id="renda-val">R$ 5.000</span>
+      </div>
+      <div class="slider-row">
+        <label>Benefício estimado INSS</label>
+        <input type="range" id="inss-slider" min="0" max="8000" step="100" value="2160" oninput="updateRenda()">
+        <span class="slider-val" id="inss-val">R$ 2.160</span>
+      </div>
+      <div class="slider-row">
+        <label>Anos de aposentadoria</label>
+        <input type="range" id="anos-slider" min="10" max="40" step="1" value="25" oninput="updateRenda()">
+        <span class="slider-val" id="anos-val">25 anos</span>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="grid-3" id="renda-results">
+        <div class="metric-card">
+          <div class="metric-label">Renda complementar necessária</div>
+          <div class="metric-value" id="complemento-val">R$ 2.840</div>
+          <div class="metric-sub">por mês, além do INSS</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Patrimônio necessário</div>
+          <div class="metric-value" id="patrimonio-val">R$ 852.000</div>
+          <div class="metric-sub">pela regra dos 4%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total acumulado ideal</div>
+          <div class="metric-value" id="total-val">R$ 1.000.000</div>
+          <div class="metric-sub">para 25 anos de renda</div>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top:1.25rem;">
+        <strong>Regra dos 4%</strong>
+        <p>Se você sacar apenas 4% ao ano do seu patrimônio total, estatisticamente o dinheiro nunca acaba — mesmo considerando a inflação. É uma estimativa conservadora baseada em décadas de dados históricos dos mercados.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Projeção de gastos na aposentadoria</div>
+      <div class="card-sub">Alguns custos mudam radicalmente depois que você para de trabalhar</div>
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Tendência</th>
+            <th>O que esperar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🚗 Transporte</strong></td>
+            <td><span style="color:var(--green);font-weight:500;">↓ Cai</span></td>
+            <td style="font-size:0.82rem;color:var(--warm-gray)">Sem deslocamentos diários. Economia de combustível, pedágio e manutenção.</td>
+          </tr>
+          <tr>
+            <td><strong>🏥 Saúde</strong></td>
+            <td><span style="color:var(--red-soft);font-weight:500;">↑↑ Sobe muito</span></td>
+            <td style="font-size:0.82rem;color:var(--warm-gray)">Plano de saúde pode triplicar após os 60 anos. Medicamentos e consultas aumentam com a idade.</td>
+          </tr>
+          <tr>
+            <td><strong>🍽️ Alimentação</strong></td>
+            <td><span style="color:var(--warm-gray);font-weight:500;">→ Estável</span></td>
+            <td style="font-size:0.82rem;color:var(--warm-gray)">Menos refeições fora por necessidade, mas talvez mais lazer gastronômico.</td>
+          </tr>
+          <tr>
+            <td><strong>✈️ Lazer / Viagens</strong></td>
+            <td><span style="color:var(--red-soft);font-weight:500;">↑ Sobe</span></td>
+            <td style="font-size:0.82rem;color:var(--warm-gray)">Mais tempo livre tende a aumentar gastos com entretenimento e viagens nos primeiros anos.</td>
+          </tr>
+          <tr>
+            <td><strong>🏠 Moradia</strong></td>
+            <td><span style="color:var(--green);font-weight:500;">↓ Cai</span></td>
+            <td style="font-size:0.82rem;color:var(--warm-gray)">Se imóvel quitado, o maior gasto de vida desaparece. IPTU e condomínio permanecem.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goTo(0)">← Anterior</button>
+      <button class="btn-dark" onclick="goTo(2)">Próximo: Investimentos →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3: INVESTIMENTOS -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-num">Etapa 03 de 05</div>
+      <h2>Estratégia de Investimentos</h2>
+      <p>O INSS é apenas a base. Para manter seu padrão de vida, você precisará de fontes complementares bem escolhidas.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Calculadora de aporte mensal</div>
+      <div class="card-sub">Quanto você precisa investir por mês para atingir sua meta?</div>
+
+      <div class="slider-row">
+        <label>Meta de patrimônio</label>
+        <input type="range" id="meta-slider" min="100000" max="5000000" step="50000" value="852000" oninput="updateAporte()">
+        <span class="slider-val" id="meta-val">R$ 852.000</span>
+      </div>
+      <div class="slider-row">
+        <label>Anos até aposentar</label>
+        <input type="range" id="prazo-slider" min="5" max="40" step="1" value="25" oninput="updateAporte()">
+        <span class="slider-val" id="prazo-val">25 anos</span>
+      </div>
+      <div class="slider-row">
+        <label>Retorno anual esperado</label>
+        <input type="range" id="retorno-slider" min="4" max="14" step="0.5" value="8" oninput="updateAporte()">
+        <span class="slider-val" id="retorno-val">8% a.a.</span>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="grid-2">
+        <div class="result-panel">
+          <div class="result-label">Aporte mensal necessário</div>
+          <div class="result-big" id="aporte-val">R$ 933</div>
+          <div class="result-sub" id="aporte-sub">por mês, por 25 anos</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div class="metric-card">
+            <div class="metric-label">Total investido</div>
+            <div class="metric-value" id="total-invest">R$ 280.000</div>
+            <div class="metric-sub">em aportes</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Juros acumulados</div>
+            <div class="metric-value" id="juros-val" style="color:var(--green);">R$ 572.000</div>
+            <div class="metric-sub">juros sobre juros</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-area" id="chart-wrap" style="margin-top:1.5rem;">
+        <canvas id="growthChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem;">Ativos recomendados para aposentadoria</div>
+      <div class="card-sub">Uma carteira diversificada para proteger e crescer seu patrimônio</div>
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Ativo</th>
+            <th>Perfil</th>
+            <th>Por que usar?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="inv-name">Tesouro RendA+</div>
+              <div class="inv-detail">Título público federal</div>
+            </td>
+            <td><span class="tag tag-safe">Conservador</span></td>
+            <td class="inv-detail">Criado especificamente para aposentadoria. Garante renda mensal corrigida pela inflação por 20 anos após o vencimento. Segurança máxima do governo federal.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inv-name">Tesouro IPCA+</div>
+              <div class="inv-detail">Título público federal</div>
+            </td>
+            <td><span class="tag tag-safe">Conservador</span></td>
+            <td class="inv-detail">Protege o poder de compra contra a inflação no longo prazo. Ideal para a fase de acumulação. Retorno = IPCA + taxa prefixada.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inv-name">Previdência PGBL</div>
+              <div class="inv-detail">Previdência privada</div>
+            </td>
+            <td><span class="tag tag-moderate">Moderado</span></td>
+            <td class="inv-detail">Ideal para assalariados que fazem declaração completa do IR. Deduz até 12% da renda bruta tributável. Eficiência fiscal real durante a acumulação.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inv-name">Previdência VGBL</div>
+              <div class="inv-detail">Previdência privada</div>
+            </td>
+            <td><span class="tag tag-moderate">Moderado</span></td>
+            <td class="inv-detail">Melhor para declaração simplificada ou para sucessão patrimonial. Não entra em inventário, transferência direta aos beneficiários. Tributação só sobre o rendimento.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inv-name">FIIs de Renda</div>
+              <div class="inv-detail">Fundos imobiliários</div>
+            </td>
+            <td><span class="tag tag-growth">Arrojado</span></td>
+            <td class="inv-detail">Distribuem proventos mensais isentos de IR para pessoa física. Geram renda passiva recorrente. Exposição ao mercado imobiliário com liquidez de bolsa.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="inv-name">Ações de Dividendos</div>
+              <div class="inv-detail">Renda variável</div>
+            </td>
+            <td><span class="tag tag-growth">Arrojado</span></td>
+            <td class="inv-detail">Empresas sólidas com histórico de dividendos crescentes. Renda passiva + proteção contra inflação no longo prazo. Maior risco, maior potencial de retorno.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box" style="margin-top:1.5rem;">
+        <strong>Alocação sugerida por fase</strong>
+        <p><strong>Acumulação (até 10 anos antes):</strong> 70% renda variável + FIIs / 30% Tesouro IPCA+<br>
+        <strong>Pré-aposentadoria (5–10 anos):</strong> 50% Tesouro / 30% FIIs / 20% ações<br>
+        <strong>Benefício (aposentado):</strong> Tesouro RendA+ + FIIs + reserva em renda fixa</p>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goTo(1)">← Anterior</button>
+      <button class="btn-dark" onclick="goTo(3)">Próximo: Carteira viva →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 4: CARTEIRA VIVA -->
+  <div class="section" id="section-3">
+    <div class="section-header">
+      <div class="section-num">Etapa 04 de 05</div>
+      <h2>Carteira Viva</h2>
+      <p>Cotações em tempo real da B3 + rebalanceamento mensal gerado por IA com base no seu perfil e nos dados do mercado.</p>
+    </div>
+
+    <!-- OPEN FINANCE BRASIL -->
+    <div class="card of-card" id="of-card">
+      <div class="of-badge"><span class="of-badge-dot"></span> Open Finance Brasil</div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div style="flex:1;min-width:240px;">
+          <div class="card-title" style="margin-bottom:0.3rem;">Conecte seus dados bancários</div>
+          <div style="font-size:0.875rem;color:var(--warm-gray);font-weight:300;line-height:1.6;max-width:480px;">
+            Importe saldo em conta, investimentos e previdência diretamente dos seus bancos — via Open Finance regulado pelo Banco Central. Sem digitar nada, sem compartilhar senhas.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;flex-shrink:0;">
+          <button class="btn-dark" style="padding:0.65rem 1.25rem;font-size:0.82rem;background:var(--blue-accent);" onclick="openOFModal()">
+            🔗 Conectar instituição
+          </button>
+          <div style="font-size:0.7rem;color:var(--warm-gray);text-align:right;">Regulado pelo <strong>Banco Central do Brasil</strong></div>
+        </div>
+      </div>
+
+      <!-- Institutions connected chips -->
+      <div id="of-chips-wrap" style="margin-top:1rem;">
+        <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--warm-gray);margin-bottom:0.6rem;">Instituições disponíveis</div>
+        <div class="of-institutions" id="of-inst-chips">
+          <div class="of-inst-chip" onclick="openOFModal('nubank')"><div class="of-inst-icon" style="background:#820AD1;">💜</div>Nubank</div>
+          <div class="of-inst-chip" onclick="openOFModal('itau')"><div class="of-inst-icon" style="background:#EC7000;">🟠</div>Itaú</div>
+          <div class="of-inst-chip" onclick="openOFModal('bradesco')"><div class="of-inst-icon" style="background:#CC092F;">🔴</div>Bradesco</div>
+          <div class="of-inst-chip" onclick="openOFModal('bb')"><div class="of-inst-icon" style="background:#F7C400;">🟡</div>Banco do Brasil</div>
+          <div class="of-inst-chip" onclick="openOFModal('xp')"><div class="of-inst-icon" style="background:#000;">⬛</div>XP Investimentos</div>
+          <div class="of-inst-chip" onclick="openOFModal('inter')"><div class="of-inst-icon" style="background:#FF7A00;">🟧</div>Banco Inter</div>
+          <div class="of-inst-chip" onclick="openOFModal('btg')"><div class="of-inst-icon" style="background:#1A1A2E;">🔷</div>BTG Pactual</div>
+          <div class="of-inst-chip" onclick="openOFModal('c6')"><div class="of-inst-icon" style="background:#222;">⚫</div>C6 Bank</div>
+        </div>
+      </div>
+
+      <!-- Status bar after connection -->
+      <div class="of-status-bar" id="of-status-bar">
+        <span style="font-size:1.1rem;">✅</span>
+        <div>
+          <strong id="of-status-bank">Nubank</strong> conectado com sucesso · 
+          <span id="of-status-accounts">3 contas importadas</span>
+          <span style="color:var(--warm-gray);font-weight:400;"> · Última sincronização: agora</span>
+        </div>
+        <button style="margin-left:auto;background:none;border:none;color:var(--green);cursor:pointer;font-size:0.78rem;font-weight:600;white-space:nowrap;" onclick="openOFModal()">+ Adicionar</button>
+      </div>
+
+      <!-- Imported data summary -->
+      <div class="of-imported-summary" id="of-imported-summary">
+        <div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--charcoal);margin-bottom:0.6rem;">Dados importados</div>
+        <div class="of-accounts-grid" id="of-accounts-grid"></div>
+        <div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+          <div style="font-size:0.75rem;color:var(--warm-gray);">💡 Os investimentos foram automaticamente adicionados à sua carteira abaixo.</div>
+          <button onclick="disconnectOF()" style="background:none;border:none;font-size:0.75rem;color:var(--warm-gray);cursor:pointer;text-decoration:underline;">Desconectar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÃO DA CARTEIRA -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Configuração da carteira</div>
+      <div class="card-sub">Configure seu perfil e busque cotações reais da B3 via Yahoo Finance — sem token, sem cadastro</div>
+      <div style="display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div class="field-group" style="margin:0;flex:1;min-width:200px;">
+          <label class="field-label">Perfil de risco</label>
+          <select id="cart-perfil">
+            <option value="conservador">Conservador (prioridade em segurança)</option>
+            <option value="moderado" selected>Moderado (equilíbrio)</option>
+            <option value="arrojado">Arrojado (foco em crescimento)</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn-dark" style="padding:0.6rem 1.25rem;" onclick="carregarCotacoes()">📡 Carregar cotações</button>
+          <button class="btn-dark" style="padding:0.6rem 1.25rem;" onclick="gerarRebalanceamentoIA()">✨ Rebalanceamento com IA</button>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--warm-gray);display:flex;align-items:center;gap:6px;">
+        <span style="background:var(--green-light);color:var(--green);padding:2px 8px;border-radius:100px;font-weight:600;font-size:0.7rem;">✓ Gratuito</span>
+        Cotações via Yahoo Finance · Dados com ~15min de atraso durante o pregão · Todos os ativos da B3 disponíveis
+      </div>
+    </div>
+
+    <!-- COTAÇÕES AO VIVO -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+        <div>
+          <div class="card-title">Cotações ao vivo · B3</div>
+          <div class="card-sub" id="cotacoes-horario">Aguardando dados...</div>
+        </div>
+        <div id="market-status" style="font-size:0.72rem;padding:4px 12px;border-radius:100px;background:var(--light-warm);color:var(--warm-gray);font-weight:500;"></div>
+      </div>
+      <div id="cotacoes-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.75rem;margin-top:1rem;">
+        <div style="text-align:center;padding:2rem;color:var(--warm-gray);grid-column:1/-1;font-size:0.875rem;">
+          Clique em "Atualizar cotações" para buscar os dados da B3
+        </div>
+      </div>
+    </div>
+
+    <!-- CARTEIRA DINÂMICA -->
+    <div class="card" style="margin-bottom:1.5rem;" id="card-carteira">
+
+      <!-- Cabeçalho + resumo -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem;">
+        <div>
+          <div class="card-title">💼 Minha Carteira</div>
+          <div class="card-sub" id="carteira-sub">Adicione ativos para acompanhar em tempo real</div>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <span id="carteira-sync-badge" style="display:none;font-size:0.7rem;padding:3px 10px;border-radius:100px;background:var(--green-light);color:var(--green);font-weight:600;">● Ao vivo</span>
+          <button class="btn-dark" style="padding:0.5rem 1rem;font-size:0.8rem;" onclick="atualizarCotacoesCarteira()" title="Atualizar cotações">🔄 Atualizar</button>
+        </div>
+      </div>
+
+      <!-- KPIs da carteira -->
+      <div id="carteira-kpis" style="display:none;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0.75rem;margin-bottom:1.25rem;">
+        <div style="background:var(--light-warm);border-radius:var(--radius-sm);padding:0.9rem 1rem;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:0.3rem;">Patrimônio total</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);" id="kpi-total">—</div>
+        </div>
+        <div style="background:var(--light-warm);border-radius:var(--radius-sm);padding:0.9rem 1rem;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:0.3rem;">Total investido</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);" id="kpi-investido">—</div>
+        </div>
+        <div style="background:var(--light-warm);border-radius:var(--radius-sm);padding:0.9rem 1rem;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:0.3rem;">Resultado</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;" id="kpi-resultado">—</div>
+        </div>
+        <div style="background:var(--light-warm);border-radius:var(--radius-sm);padding:0.9rem 1rem;">
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:0.3rem;">Variação hoje</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;" id="kpi-hoje">—</div>
+        </div>
+      </div>
+
+      <!-- Gráfico de alocação -->
+      <div id="carteira-alloc-wrap" style="display:none;margin-bottom:1.25rem;">
+        <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--warm-gray);margin-bottom:0.5rem;">Alocação atual</div>
+        <div id="carteira-alloc-bar" style="display:flex;height:10px;border-radius:100px;overflow:hidden;gap:2px;"></div>
+        <div id="carteira-alloc-legend" style="display:flex;flex-wrap:wrap;gap:0.5rem 1.25rem;margin-top:0.6rem;"></div>
+      </div>
+
+      <!-- Formulário de adição -->
+      <div style="background:var(--cream);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem;border:1px solid rgba(26,26,24,0.07);">
+        <div style="font-size:0.78rem;font-weight:600;color:var(--charcoal);margin-bottom:0.75rem;">+ Adicionar ativo</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:flex-end;">
+          <div>
+            <div style="font-size:0.72rem;color:var(--warm-gray);margin-bottom:3px;">Ticker</div>
+            <input type="text" id="novo-ticker" placeholder="PETR4" style="width:110px;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+          </div>
+          <div>
+            <div style="font-size:0.72rem;color:var(--warm-gray);margin-bottom:3px;">Quantidade</div>
+            <input type="number" id="nova-qtd" placeholder="100" style="width:100px;" min="1">
+          </div>
+          <div>
+            <div style="font-size:0.72rem;color:var(--warm-gray);margin-bottom:3px;">Preço médio (R$)</div>
+            <input type="number" id="novo-preco" placeholder="38,50" style="width:130px;" step="0.01">
+          </div>
+          <button class="btn-dark" style="padding:0.6rem 1.1rem;" onclick="adicionarAtivo()">Adicionar →</button>
+        </div>
+        <div id="add-ativo-erro" style="display:none;font-size:0.78rem;color:var(--red-soft);margin-top:0.5rem;"></div>
+      </div>
+
+      <!-- Tabela de ativos -->
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.875rem;min-width:620px;" id="carteira-table">
+          <thead>
+            <tr style="background:var(--light-warm);">
+              <th style="padding:0.6rem 0.75rem;text-align:left;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">Ativo</th>
+              <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">Qtd.</th>
+              <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">P. médio</th>
+              <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">Cotação</th>
+              <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">Valor atual</th>
+              <th style="padding:0.6rem 0.75rem;text-align:right;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">Resultado</th>
+              <th style="padding:0.6rem 0.75rem;text-align:center;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--warm-gray);border-bottom:1px solid rgba(26,26,24,0.1);">% Cart.</th>
+              <th style="padding:0.6rem 0.75rem;border-bottom:1px solid rgba(26,26,24,0.1);"></th>
+            </tr>
+          </thead>
+          <tbody id="carteira-tbody">
+            <tr id="carteira-empty-row">
+              <td colspan="8" style="padding:2.5rem;text-align:center;color:var(--warm-gray);font-size:0.875rem;">
+                📭 Nenhum ativo adicionado. Use o formulário acima para começar.
+              </td>
+            </tr>
+          </tbody>
+          <tfoot id="carteira-tfoot" style="display:none;">
+            <tr style="background:var(--light-warm);">
+              <td colspan="4" style="padding:0.75rem;font-weight:600;font-size:0.875rem;color:var(--dark);">Total</td>
+              <td style="padding:0.75rem;text-align:right;font-weight:700;color:var(--dark);font-family:'Playfair Display',serif;" id="total-carteira-val">—</td>
+              <td style="padding:0.75rem;text-align:right;font-weight:700;" id="total-resultado-val">—</td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- REBALANCEAMENTO IA -->
+    <div class="card" id="card-rebalance" style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+        <div>
+          <div class="card-title">Rebalanceamento mensal · IA</div>
+          <div class="card-sub">Análise personalizada gerada pelo Claude com base no seu perfil, prazo e carteira atual</div>
+        </div>
+        <span id="rebalance-badge" style="display:none;font-size:0.7rem;padding:3px 10px;border-radius:100px;background:var(--green-light);color:var(--green);font-weight:600;white-space:nowrap;">✓ Atualizado</span>
+      </div>
+      <div id="rebalance-loading" style="display:none;padding:1.5rem;text-align:center;color:var(--warm-gray);">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem;">⚙️</div>
+        <div style="font-size:0.875rem;">Analisando mercado e gerando recomendações personalizadas...</div>
+      </div>
+      <div id="rebalance-content" style="color:var(--warm-gray);font-size:0.875rem;line-height:1.8;padding:0.5rem 0;">
+        Clique em <strong style="color:var(--dark);">"Gerar rebalanceamento mensal com IA"</strong> para receber uma análise personalizada da sua carteira com sugestões de alocação para o mês.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goTo(2)">← Anterior</button>
+      <button class="btn-dark" onclick="goTo(4)">Ver resumo do plano →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 5: RESUMO -->
+  <div class="section" id="section-4">
+    <div class="section-header">
+      <div class="section-num">Etapa 05 de 05</div>
+      <h2>Seu Plano de Aposentadoria</h2>
+      <p>Um panorama completo baseado nos dados que você informou. Salve ou imprima para acompanhar sua jornada.</p>
+    </div>
+
+    <div class="summary-grid" id="summary-cards">
+      <div class="summary-item">
+        <span class="summary-icon">🏛️</span>
+        <span class="summary-val" id="s-beneficio">R$ 2.160</span>
+        <span class="summary-lbl">Benefício INSS estimado</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-icon">🎯</span>
+        <span class="summary-val" id="s-renda">R$ 5.000</span>
+        <span class="summary-lbl">Renda mensal desejada</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-icon">🏦</span>
+        <span class="summary-val" id="s-patrimonio">R$ 852.000</span>
+        <span class="summary-lbl">Patrimônio necessário</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-icon">📅</span>
+        <span class="summary-val" id="s-aporte">R$ 933/mês</span>
+        <span class="summary-lbl">Aporte mensal recomendado</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Linha do tempo do seu plano</div>
+      <div class="card-sub">Etapas e marcos para acompanhar sua evolução</div>
+      <div id="timeline" style="margin-top:1.25rem;"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title">Próximos passos práticos</div>
+      <div class="card-sub">Ações para começar esta semana</div>
+      <ul class="checklist">
+        <li>
+          <div class="check-icon" onclick="toggleCheck(this)"></div>
+          <div class="check-text">
+            <h4>Instalar o app Meu INSS e baixar o CNIS</h4>
+            <p>Verifique contribuições, corrija erros e simule com dados reais.</p>
+          </div>
+        </li>
+        <li>
+          <div class="check-icon" onclick="toggleCheck(this)"></div>
+          <div class="check-text">
+            <h4>Abrir conta em corretora de valores</h4>
+            <p>XP, Rico, Nu Invest, BTG — todas têm acesso ao Tesouro Direto e FIIs sem taxa de custódia.</p>
+          </div>
+        </li>
+        <li>
+          <div class="check-icon" onclick="toggleCheck(this)"></div>
+          <div class="check-text">
+            <h4>Fazer primeiro aporte no Tesouro RendA+ ou IPCA+</h4>
+            <p>Comece com R$ 100 para criar o hábito. O valor importa menos que a constância.</p>
+          </div>
+        </li>
+        <li>
+          <div class="check-icon" onclick="toggleCheck(this)"></div>
+          <div class="check-text">
+            <h4>Definir alocação mensal automática</h4>
+            <p>Automatize o aporte mensal para não depender da disciplina diária.</p>
+          </div>
+        </li>
+        <li>
+          <div class="check-icon" onclick="toggleCheck(this)"></div>
+          <div class="check-text">
+            <h4>Contratar plano de saúde agora (se não tiver)</h4>
+            <p>Quanto mais novo, mais barato. Esperar aumenta drasticamente o custo futuro.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="result-panel" style="text-align:center;padding:2.5rem;">
+      <div class="result-label" style="margin-bottom:0.75rem;">Lembre-se sempre</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:white;max-width:500px;margin:0 auto;line-height:1.5;font-style:italic;">
+        "O melhor momento para começar a investir era há 20 anos. O segundo melhor momento é agora."
+      </div>
+      <div style="color:rgba(255,255,255,0.4);font-size:0.75rem;margin-top:1rem;">Provérbio do mercado financeiro</div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goTo(3)">← Anterior</button>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <button class="btn-dark" id="btn-salvar-perfil" onclick="saveClientProfile()" style="display:none;background:var(--green);border-color:var(--green);">
+          💾 Salvar perfil
+        </button>
+        <button class="btn-dark" onclick="window.print()">🖨️ Imprimir plano</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Plano Livre · Planejamento de Aposentadoria 2026<br>
+  <span style="opacity:0.6;font-size:0.72rem;">Este conteúdo é educacional e não constitui consultoria financeira. Consulte um assessor de investimentos certificado para decisões personalizadas.</span></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+  /* ───────────── STATE ───────────── */
+  let currentSection = 0;
+  let growthChart = null;
+  let carteiraAtivos = [];
+  let cotacoesCache = {};
+  let currentUser = null; // {name, email}
+
+  /* ───────────── SLIDE NAVIGATION ───────────── */
+  function slideTo(idx) {
+    const direction = idx > currentSection ? 'right' : 'left';
+    const sections = document.querySelectorAll('.section');
+    const steps = document.querySelectorAll('.step-item');
+    const lines = document.querySelectorAll('.step-line');
+
+    sections.forEach((s, i) => {
+      s.classList.remove('active', 'slide-in-right', 'slide-in-left');
+      if (i === idx) {
+        s.classList.add('active');
+        s.classList.add(direction === 'right' ? 'slide-in-right' : 'slide-in-left');
+      }
+    });
+
+    steps.forEach((s, i) => {
+      s.classList.remove('active', 'done');
+      if (i < idx) s.classList.add('done');
+      if (i === idx) s.classList.add('active');
+    });
+
+    lines.forEach((l, i) => {
+      l.style.background = i < idx ? 'var(--gold)' : '#ddd';
+    });
+
+    currentSection = idx;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (idx === 2) setTimeout(() => { updateAporte(); }, 100);
+    if (idx === 3) setTimeout(() => { carregarCotacoes(); injectProposalCard(); }, 200);
+    if (idx === 4) setTimeout(() => { updateSummary(); if (currentUser) saveClientProfile(); }, 100);
+  }
+
+  /* Keep goTo as alias for backward compat */
+  function goTo(idx) { slideTo(idx); }
+
+  /* ───────────── FORMATAÇÃO ───────────── */
+  function fmt(n) {
+    return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+  }
+  function fmtDec(n, dec=2) {
+    return 'R$ ' + n.toLocaleString('pt-BR', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+  }
+  function fmtPct(n) {
+    const sign = n >= 0 ? '+' : '';
+    return sign + n.toFixed(2) + '%';
+  }
+
+  /* ───────────── INSS ───────────── */
+  function updateSimulacao() {
+    const genero = document.getElementById('genero').value;
+    const idade = parseInt(document.getElementById('idade').value) || 35;
+    const contrib = parseInt(document.getElementById('contribuicao').value) || 0;
+    const salario = parseFloat(document.getElementById('salario').value) || 0;
+
+    const pontos = idade + contrib;
+    const metaPontos = genero === 'F' ? 93 : 103;
+    const idadeMin = genero === 'F' ? 59.5 : 64.5;
+    const contribMin = genero === 'F' ? 30 : 35;
+
+    document.getElementById('pontos-atuais').textContent = pontos;
+    document.getElementById('pontos-meta').textContent = `Meta: ${metaPontos} pts (${genero === 'F' ? 'Feminino' : 'Masculino'})`;
+    const pct = Math.min(100, Math.round((pontos/metaPontos)*100));
+    document.getElementById('pontos-bar').style.width = pct + '%';
+
+    const anosFaltamPontos = Math.max(0, metaPontos - pontos) / 2;
+    const anosFaltamIdade = Math.max(0, idadeMin - idade);
+    const anosFaltamContrib = Math.max(0, contribMin - contrib);
+    const anosFaltam = Math.ceil(Math.max(anosFaltamPontos, anosFaltamIdade, anosFaltamContrib));
+    document.getElementById('anos-faltam').textContent = anosFaltam > 0 ? anosFaltam + ' anos' : 'Já elegível!';
+
+    const aliquota = 0.60 + Math.min(0.40, (contrib - 15) * 0.02);
+    const beneficio = Math.min(salario * Math.max(0.6, aliquota), 8157);
+    document.getElementById('beneficio-val').textContent = fmt(beneficio);
+    document.getElementById('beneficio-sub').textContent = `${Math.round(Math.max(60, aliquota*100))}% do salário médio · Base 2026`;
+
+    document.getElementById('inss-slider').value = Math.round(beneficio);
+    document.getElementById('inss-val').textContent = fmt(beneficio);
+    updateRenda();
+  }
+
+  /* ───────────── ESTILO DE VIDA ───────────── */
+  function updateRenda() {
+    const renda = parseFloat(document.getElementById('renda-slider').value);
+    const inss = parseFloat(document.getElementById('inss-slider').value);
+    const anos = parseFloat(document.getElementById('anos-slider').value);
+
+    document.getElementById('renda-val').textContent = fmt(renda);
+    document.getElementById('inss-val').textContent = fmt(inss);
+    document.getElementById('anos-val').textContent = anos + ' anos';
+
+    const complemento = Math.max(0, renda - inss);
+    const patrimonioRegra4 = complemento * 12 / 0.04;
+    const totalAcum = renda * 12 * anos * 0.7;
+
+    document.getElementById('complemento-val').textContent = fmt(complemento);
+    document.getElementById('patrimonio-val').textContent = fmt(patrimonioRegra4);
+    document.getElementById('total-val').textContent = fmt(Math.max(patrimonioRegra4, totalAcum));
+
+    document.getElementById('meta-slider').value = Math.round(patrimonioRegra4);
+    document.getElementById('meta-val').textContent = fmt(patrimonioRegra4);
+    updateAporte();
+  }
+
+  /* ───────────── INVESTIMENTOS ───────────── */
+  function updateAporte() {
+    const meta = parseFloat(document.getElementById('meta-slider').value);
+    const prazo = parseFloat(document.getElementById('prazo-slider').value);
+    const retorno = parseFloat(document.getElementById('retorno-slider').value) / 100;
+
+    document.getElementById('meta-val').textContent = fmt(meta);
+    document.getElementById('prazo-val').textContent = prazo + ' anos';
+    document.getElementById('retorno-val').textContent = (retorno*100).toFixed(1) + '% a.a.';
+
+    const r = retorno / 12;
+    const n = prazo * 12;
+    const aporte = r === 0 ? meta / n : meta * r / (Math.pow(1+r, n) - 1);
+    const totalInvest = aporte * n;
+    const juros = meta - totalInvest;
+
+    document.getElementById('aporte-val').textContent = fmt(aporte);
+    document.getElementById('aporte-sub').textContent = `por mês, por ${prazo} anos`;
+    document.getElementById('total-invest').textContent = fmt(totalInvest);
+    document.getElementById('juros-val').textContent = fmt(juros);
+
+    drawGrowthChart(aporte, prazo, retorno/12, meta);
+  }
+
+  function drawGrowthChart(aporte, prazo, r, meta) {
+    const labels = [], patrimonio = [], investido = [];
+    for(let y = 0; y <= prazo; y++) {
+      labels.push('Ano ' + y);
+      const n = y * 12;
+      patrimonio.push(Math.round(r === 0 ? aporte*n : aporte*(Math.pow(1+r,n)-1)/r));
+      investido.push(Math.round(aporte*n));
+    }
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    if(growthChart) growthChart.destroy();
+    growthChart = new Chart(ctx, {
+      type:'line',
+      data:{labels, datasets:[
+        {label:'Patrimônio acumulado', data:patrimonio, borderColor:'#C9A84C', backgroundColor:'rgba(201,168,76,0.08)', fill:true, tension:0.4, pointRadius:0, borderWidth:2},
+        {label:'Total investido', data:investido, borderColor:'#7A7970', backgroundColor:'transparent', fill:false, tension:0.4, pointRadius:0, borderWidth:1.5, borderDash:[5,5]}
+      ]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{position:'bottom', labels:{boxWidth:12, font:{family:'DM Sans',size:12}, color:'#7A7970'}},
+          tooltip:{callbacks:{label: c => ' ' + fmt(c.parsed.y)}}
+        },
+        scales:{
+          x:{grid:{display:false}, ticks:{font:{family:'DM Sans',size:11}, color:'#7A7970', maxTicksLimit:6}},
+          y:{grid:{color:'rgba(26,26,24,0.06)'}, ticks:{font:{family:'DM Sans',size:11}, color:'#7A7970', callback: v => 'R$ '+(v/1000).toFixed(0)+'k'}}
+        }
+      }
+    });
+  }
+
+  /* ═══════════════════════════════════════════
+     COTAÇÕES · Yahoo Finance com fallback de proxies CORS
+     Sem token · Sem cadastro · Funciona local e hospedado
+     Tickers B3 no Yahoo: PETR4 → PETR4.SA
+  ═══════════════════════════════════════════ */
+
+  /* Converte ticker B3 para formato Yahoo Finance */
+  function toYahooTicker(t) {
+    if (t === 'IBOV' || t === '^BVSP') return '^BVSP';
+    if (t.endsWith('.SA')) return t;
+    // Tickers que não são B3 (índices, ETFs americanos etc.)
+    if (['PGBL','VGBL','TESOURO IPCA+','TESOURO RENDA+','CDB'].includes(t)) return null;
+    return t + '.SA';
+  }
+
+  /* Lista de proxies CORS em ordem de prioridade */
+  const CORS_PROXIES = [
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+    url => `https://thingproxy.freeboard.io/fetch/${url}`,
+    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  ];
+
+  /* Tenta cada proxy em sequência até um responder com sucesso */
+  async function fetchWithFallback(targetUrl, timeoutMs = 6000) {
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+      const proxyUrl = CORS_PROXIES[i](targetUrl);
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        const res = await fetch(proxyUrl, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const text = await res.text();
+        // allorigins às vezes retorna o JSON dentro de { contents: "..." }
+        try {
+          const wrapped = JSON.parse(text);
+          if (wrapped?.contents) return JSON.parse(wrapped.contents);
+          return wrapped;
+        } catch { return JSON.parse(text); }
+      } catch (err) {
+        console.warn(`Proxy ${i+1} falhou (${err.message}), tentando próximo...`);
+      }
+    }
+    throw new Error('Todos os proxies falharam. Verifique sua conexão.');
+  }
+
+  /* Busca cotações no Yahoo Finance com fallback automático de proxies */
+  async function fetchYahooQuotes(tickers) {
+    // Filtra tickers que o Yahoo não reconhece (previdência, títulos manuais)
+    const validTickers = tickers.filter(t => toYahooTicker(t) !== null);
+    if (!validTickers.length) return {};
+
+    const yahooTickers = validTickers.map(toYahooTicker).join(',');
+    // Tenta query1 e query2 como fallback de endpoint também
+    const endpoints = [
+      `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${yahooTickers}&lang=pt-BR&region=BR`,
+      `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${yahooTickers}&lang=pt-BR&region=BR`,
+    ];
+
+    let data = null;
+    for (const url of endpoints) {
+      try {
+        data = await fetchWithFallback(url);
+        if (data?.quoteResponse?.result?.length) break;
+      } catch(e) {
+        console.warn('Endpoint falhou:', e.message);
+      }
+    }
+
+    const results = data?.quoteResponse?.result;
+    if (!results?.length) throw new Error('Nenhum dado retornado pelo Yahoo Finance.');
+
+    const normalized = {};
+    results.forEach(r => {
+      const symbol = r.symbol.replace('.SA', '');
+      normalized[symbol] = {
+        price:         r.regularMarketPrice         ?? 0,
+        change:        r.regularMarketChange        ?? 0,
+        changePercent: r.regularMarketChangePercent ?? 0,
+        name:          r.shortName || r.longName    || symbol,
+        high:          r.regularMarketDayHigh       ?? 0,
+        low:           r.regularMarketDayLow        ?? 0,
+        volume:        r.regularMarketVolume        ?? 0,
+      };
+    });
+    return normalized;
+  }
+
+  /* — Painel de mercado (cotações ao vivo, botão "Atualizar cotações") — */
+  async function carregarCotacoes() {
+    const status  = document.getElementById('market-status');
+    const horario = document.getElementById('cotacoes-horario');
+    const grid    = document.getElementById('cotacoes-grid');
+
+    const tickersPadrao = ['PETR4','VALE3','ITUB4','BBAS3','WEGE3','MXRF11','HGLG11','IBOV'];
+    const tickersCarteira = carteiraAtivos.map(a => a.ticker);
+    const tickers = [...new Set([...tickersPadrao, ...tickersCarteira])];
+
+    status.textContent = '⟳ Buscando...';
+    status.style.background = 'var(--gold-pale)';
+    status.style.color = '#7A5A10';
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:var(--warm-gray);font-size:0.875rem;">🔌 Conectando ao Yahoo Finance...</div>`;
+
+    try {
+      const quotes = await fetchYahooQuotes(tickers);
+
+      // Salva no cache global
+      Object.assign(cotacoesCache, quotes);
+
+      // Renderiza cards
+      grid.innerHTML = Object.entries(quotes).map(([symbol, r]) => {
+        const pos = r.changePercent >= 0;
+        const cor = pos ? 'var(--green)' : 'var(--red-soft)';
+        const bg  = pos ? 'var(--green-light)' : 'var(--red-bg)';
+        const precoFmt = symbol === 'IBOV'
+          ? r.price.toLocaleString('pt-BR', {maximumFractionDigits:0}) + ' pts'
+          : fmtDec(r.price);
+        return `
+          <div style="background:var(--white);border:1px solid rgba(26,26,24,0.08);border-radius:var(--radius-sm);padding:1rem;min-width:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+              <span style="font-weight:600;font-size:0.875rem;color:var(--dark);">${symbol}</span>
+              <span style="font-size:0.7rem;padding:2px 8px;border-radius:100px;background:${bg};color:${cor};font-weight:600;">${r.changePercent>=0?'+':''}${r.changePercent.toFixed(2)}%</span>
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);margin-bottom:0.15rem;">${precoFmt}</div>
+            <div style="font-size:0.72rem;color:var(--warm-gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.name}</div>
+            <div style="font-size:0.72rem;color:${cor};margin-top:0.25rem;">${r.change>=0?'+':''}${fmtDec(r.change)} hoje</div>
+          </div>`;
+      }).join('');
+
+      const agora = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      horario.textContent = `Atualizado às ${agora} · Yahoo Finance · ${Object.keys(quotes).length} ativos`;
+      status.textContent = '● Ao vivo';
+      status.style.background = 'var(--green-light)';
+      status.style.color = 'var(--green)';
+
+      renderCarteiraTable();
+
+    } catch(e) {
+      console.error('carregarCotacoes erro:', e);
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:var(--red-soft);font-size:0.875rem;">
+        ⚠️ Não foi possível carregar cotações.<br>
+        <span style="font-size:0.78rem;color:var(--warm-gray);display:block;margin-top:0.5rem;line-height:1.6;">
+          ${e.message.includes('proxy') || e.message.includes('Failed to fetch')
+            ? 'Todos os proxies CORS falharam. Isso pode acontecer com bloqueadores de anúncio ativos (uBlock, AdGuard). Tente desativar para este site.'
+            : 'Verifique sua conexão com a internet e tente novamente.'
+          }
+          <br><button onclick="carregarCotacoes()" style="margin-top:0.5rem;background:var(--gold);border:none;padding:4px 14px;border-radius:100px;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Tentar novamente</button>
+        </span>
+      </div>`;
+      status.textContent = '✕ Erro';
+      status.style.background = 'var(--red-bg)';
+      status.style.color = 'var(--red-soft)';
+    }
+  }
+
+  /* ═══════════════════════════════════════════
+     CARTEIRA DINÂMICA — SPRINT 2
+     Persistência · Cotações reais · KPIs · Gráfico
+  ═══════════════════════════════════════════ */
+
+  const CARTEIRA_KEY = 'pl_carteira_v2';
+  const CORES_CARTEIRA = ['#C9A84C','#2A4E7A','#2E6B4F','#8B3A3A','#7A7970','#4A9B72','#A05000','#5A3A7A','#3A6B8B','#6B4A2E'];
+  let autoRefreshTimer = null;
+
+  /* — Persistência — */
+  function salvarCarteiraLocal() {
+    localStorage.setItem(CARTEIRA_KEY, JSON.stringify(carteiraAtivos));
+    // Se tiver usuário logado, salva no banco de clientes também
+    if (currentUser) {
+      const all = getStoredClients();
+      if (all[currentUser.email]) {
+        all[currentUser.email].carteira = carteiraAtivos;
+        localStorage.setItem('pl_clientes_db', JSON.stringify(all));
+      }
+    }
+  }
+
+  function carregarCarteiraLocal() {
+    try {
+      const saved = localStorage.getItem(CARTEIRA_KEY);
+      if (saved) carteiraAtivos = JSON.parse(saved);
+    } catch(e) { carteiraAtivos = []; }
+  }
+
+  /* — Adicionar ativo com validação — */
+  function adicionarAtivo() {
+    const ticker = document.getElementById('novo-ticker').value.trim().toUpperCase();
+    const qtd = parseFloat(document.getElementById('nova-qtd').value);
+    const pm = parseFloat(document.getElementById('novo-preco').value);
+    const erroEl = document.getElementById('add-ativo-erro');
+    erroEl.style.display = 'none';
+
+    if (!ticker || ticker.length < 4) { erroEl.textContent = '⚠ Informe um ticker válido (ex: PETR4, MXRF11)'; erroEl.style.display='block'; return; }
+    if (!qtd || qtd <= 0) { erroEl.textContent = '⚠ Informe uma quantidade maior que zero.'; erroEl.style.display='block'; return; }
+    if (!pm || pm <= 0) { erroEl.textContent = '⚠ Informe o preço médio de compra.'; erroEl.style.display='block'; return; }
+
+    const existente = carteiraAtivos.find(a => a.ticker === ticker);
+    if (existente) {
+      // Atualiza com preço médio ponderado
+      const totalQtd = existente.qtd + qtd;
+      existente.pm = (existente.pm * existente.qtd + pm * qtd) / totalQtd;
+      existente.qtd = totalQtd;
+    } else {
+      carteiraAtivos.push({ ticker, qtd, pm, addedAt: new Date().toISOString() });
+    }
+
+    document.getElementById('novo-ticker').value = '';
+    document.getElementById('nova-qtd').value = '';
+    document.getElementById('novo-preco').value = '';
+    salvarCarteiraLocal();
+    renderCarteiraTable();
+    // Busca cotação do novo ativo imediatamente
+    atualizarCotacoesCarteira();
+  }
+
+  function removerAtivo(ticker) {
+    carteiraAtivos = carteiraAtivos.filter(a => a.ticker !== ticker);
+    salvarCarteiraLocal();
+    renderCarteiraTable();
+    if (carteiraAtivos.length === 0) pararAutoRefresh();
+  }
+
+  function editarQtd(ticker) {
+    const ativo = carteiraAtivos.find(a => a.ticker === ticker);
+    if (!ativo) return;
+    const novaQtd = parseFloat(prompt(`Nova quantidade para ${ticker} (atual: ${ativo.qtd}):`, ativo.qtd));
+    if (isNaN(novaQtd) || novaQtd <= 0) return;
+    ativo.qtd = novaQtd;
+    salvarCarteiraLocal();
+    renderCarteiraTable();
+  }
+
+  /* — Busca cotações dos tickers da carteira do usuário — */
+  async function atualizarCotacoesCarteira() {
+    if (carteiraAtivos.length === 0) return;
+    const badge = document.getElementById('carteira-sync-badge');
+    badge.style.display = 'inline-block';
+    badge.textContent = '⟳ Buscando...';
+    badge.style.background = 'var(--gold-pale)';
+    badge.style.color = '#7A5A10';
+
+    try {
+      const tickers = [...new Set(carteiraAtivos.map(a => a.ticker))];
+      const quotes = await fetchYahooQuotes(tickers);
+
+      Object.assign(cotacoesCache, quotes);
+
+      badge.textContent = '● Ao vivo';
+      badge.style.background = 'var(--green-light)';
+      badge.style.color = 'var(--green)';
+      renderCarteiraTable();
+      iniciarAutoRefresh();
+    } catch(e) {
+      console.error('atualizarCotacoesCarteira erro:', e);
+      badge.textContent = '⚠ Sem cotação';
+      badge.style.background = 'var(--red-bg)';
+      badge.style.color = 'var(--red-soft)';
+      renderCarteiraTable();
+    }
+  }
+
+  /* — Auto-refresh a cada 60s enquanto seção estiver visível — */
+  function iniciarAutoRefresh() {
+    pararAutoRefresh();
+    autoRefreshTimer = setInterval(() => {
+      const secao = document.getElementById('section-3');
+      if (secao && secao.classList.contains('active')) {
+        atualizarCotacoesCarteira();
+      }
+    }, 60000);
+  }
+
+  function pararAutoRefresh() {
+    if (autoRefreshTimer) { clearInterval(autoRefreshTimer); autoRefreshTimer = null; }
+  }
+
+  /* — Render principal da carteira — */
+  function renderCarteiraTable() {
+    const tbody = document.getElementById('carteira-tbody');
+    const tfoot = document.getElementById('carteira-tfoot');
+    const kpis  = document.getElementById('carteira-kpis');
+    const allocWrap = document.getElementById('carteira-alloc-wrap');
+    const sub = document.getElementById('carteira-sub');
+
+    if (carteiraAtivos.length === 0) {
+      tbody.innerHTML = `<tr id="carteira-empty-row"><td colspan="8" style="padding:2.5rem;text-align:center;color:var(--warm-gray);font-size:0.875rem;">📭 Nenhum ativo adicionado. Use o formulário acima para começar.</td></tr>`;
+      tfoot.style.display = 'none';
+      kpis.style.display = 'none';
+      allocWrap.style.display = 'none';
+      sub.textContent = 'Adicione ativos para acompanhar em tempo real';
+      return;
+    }
+
+    let totalAtual = 0, totalInvestido = 0, totalHoje = 0;
+
+    const rows = carteiraAtivos.map((a, idx) => {
+      const cot = cotacoesCache[a.ticker];
+      const cotacao = cot?.price ?? null;
+      const valorAtual = cotacao ? cotacao * a.qtd : a.pm * a.qtd;
+      const valorInvest = a.pm * a.qtd;
+      const resultado = valorAtual - valorInvest;
+      const resultadoPct = (resultado / valorInvest) * 100;
+      const varHoje = cot ? cot.change * a.qtd : 0;
+      totalAtual += valorAtual;
+      totalInvestido += valorInvest;
+      totalHoje += varHoje;
+      return { a, cotacao, valorAtual, valorInvest, resultado, resultadoPct, varHoje, cot, idx };
+    });
+
+    // Renderiza linhas
+    tbody.innerHTML = rows.map(({ a, cotacao, valorAtual, resultado, resultadoPct, cot, idx }) => {
+      const pct = (valorAtual / totalAtual * 100);
+      const posRes = resultado >= 0;
+      const corRes = posRes ? 'var(--green)' : 'var(--red-soft)';
+      const cor = CORES_CARTEIRA[idx % CORES_CARTEIRA.length];
+      const cotStr = cotacao != null
+        ? `<span style="font-weight:600">${fmtDec(cotacao)}</span>${cot ? `<br><span style="font-size:0.68rem;color:${cot.changePercent>=0?'var(--green)':'var(--red-soft)'};">${fmtPct(cot.changePercent)} hoje</span>` : ''}`
+        : `<span style="color:var(--warm-gray);font-size:0.78rem;">Sem cotação</span>`;
+      return `<tr style="transition:background 0.2s;" onmouseover="this.style.background='rgba(201,168,76,0.04)'" onmouseout="this.style.background=''">
+        <td style="padding:0.75rem;border-bottom:1px solid rgba(26,26,24,0.06);">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:${cor};flex-shrink:0;"></div>
+            <span style="font-weight:700;font-size:0.9rem;">${a.ticker}</span>
+          </div>
+          <div style="font-size:0.7rem;color:var(--warm-gray);margin-top:1px;padding-left:15px;">${cot?.name || ''}</div>
+        </td>
+        <td style="padding:0.75rem;text-align:right;border-bottom:1px solid rgba(26,26,24,0.06);">
+          <span style="cursor:pointer;text-decoration:underline dotted;color:var(--charcoal);" onclick="editarQtd('${a.ticker}')" title="Clique para editar">${a.qtd.toLocaleString('pt-BR')}</span>
+        </td>
+        <td style="padding:0.75rem;text-align:right;border-bottom:1px solid rgba(26,26,24,0.06);font-size:0.875rem;">${fmtDec(a.pm)}</td>
+        <td style="padding:0.75rem;text-align:right;border-bottom:1px solid rgba(26,26,24,0.06);font-size:0.875rem;">${cotStr}</td>
+        <td style="padding:0.75rem;text-align:right;border-bottom:1px solid rgba(26,26,24,0.06);font-weight:600;font-size:0.875rem;">${fmtDec(valorAtual)}</td>
+        <td style="padding:0.75rem;text-align:right;border-bottom:1px solid rgba(26,26,24,0.06);font-size:0.875rem;">
+          <span style="color:${corRes};font-weight:600;">${posRes?'+':''}${fmtDec(resultado)}</span><br>
+          <span style="font-size:0.7rem;color:${corRes};">(${posRes?'+':''}${resultadoPct.toFixed(2)}%)</span>
+        </td>
+        <td style="padding:0.75rem;text-align:center;border-bottom:1px solid rgba(26,26,24,0.06);">
+          <div style="background:var(--light-warm);border-radius:100px;height:6px;width:70px;overflow:hidden;display:inline-block;vertical-align:middle;">
+            <div style="background:${cor};height:100%;width:${Math.min(100,pct).toFixed(1)}%;border-radius:100px;transition:width 0.6s;"></div>
+          </div>
+          <div style="font-size:0.7rem;color:var(--warm-gray);margin-top:2px;">${pct.toFixed(1)}%</div>
+        </td>
+        <td style="padding:0.75rem;border-bottom:1px solid rgba(26,26,24,0.06);text-align:center;">
+          <button onclick="removerAtivo('${a.ticker}')" style="background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:1rem;padding:4px;line-height:1;" title="Remover">✕</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    // Total footer
+    const totalRes = totalAtual - totalInvestido;
+    const totalResPct = totalInvestido > 0 ? (totalRes / totalInvestido) * 100 : 0;
+    const corTotal = totalRes >= 0 ? 'var(--green)' : 'var(--red-soft)';
+    document.getElementById('total-carteira-val').textContent = fmtDec(totalAtual);
+    document.getElementById('total-resultado-val').innerHTML = `<span style="color:${corTotal}">${totalRes>=0?'+':''}${fmtDec(totalRes)}<br><span style="font-size:0.72rem;">(${totalRes>=0?'+':''}${totalResPct.toFixed(2)}%)</span></span>`;
+    tfoot.style.display = '';
+
+    // KPIs
+    kpis.style.display = 'grid';
+    document.getElementById('kpi-total').textContent = fmtDec(totalAtual);
+    document.getElementById('kpi-investido').textContent = fmtDec(totalInvestido);
+    const kpiRes = document.getElementById('kpi-resultado');
+    kpiRes.textContent = (totalRes >= 0 ? '+' : '') + fmtDec(totalRes);
+    kpiRes.style.color = corTotal;
+    const kpiHoje = document.getElementById('kpi-hoje');
+    kpiHoje.textContent = (totalHoje >= 0 ? '+' : '') + fmtDec(totalHoje);
+    kpiHoje.style.color = totalHoje >= 0 ? 'var(--green)' : 'var(--red-soft)';
+
+    // Barra de alocação
+    allocWrap.style.display = 'block';
+    document.getElementById('carteira-alloc-bar').innerHTML = rows.map(({ valorAtual, idx }) => {
+      const pct = (valorAtual / totalAtual * 100);
+      return `<div style="width:${pct.toFixed(1)}%;background:${CORES_CARTEIRA[idx % CORES_CARTEIRA.length]};height:100%;border-radius:2px;" title="${rows[idx].a.ticker}: ${pct.toFixed(1)}%"></div>`;
+    }).join('');
+
+    document.getElementById('carteira-alloc-legend').innerHTML = rows.map(({ a, valorAtual, idx }) => {
+      const pct = (valorAtual / totalAtual * 100);
+      return `<div style="display:flex;align-items:center;gap:5px;font-size:0.75rem;color:var(--charcoal);">
+        <div style="width:10px;height:10px;border-radius:2px;background:${CORES_CARTEIRA[idx % CORES_CARTEIRA.length]};flex-shrink:0;"></div>
+        ${a.ticker} <strong>${pct.toFixed(1)}%</strong>
+      </div>`;
+    }).join('');
+
+    sub.textContent = `${carteiraAtivos.length} ativo${carteiraAtivos.length>1?'s':''} · Patrimônio: ${fmtDec(totalAtual)}`;
+  }
+
+  /* — Rebalanceamento mensal com IA (Claude API) — */
+  async function gerarRebalanceamentoIA() {
+    const perfil = document.getElementById('cart-perfil').value;
+    const prazo = document.getElementById('prazo-slider').value;
+    const meta = document.getElementById('meta-val').textContent;
+    const aporte = document.getElementById('aporte-val').textContent;
+    const inss = document.getElementById('inss-val').textContent;
+    const idade = document.getElementById('idade').value;
+
+    const loading = document.getElementById('rebalance-loading');
+    const content = document.getElementById('rebalance-content');
+    const badge = document.getElementById('rebalance-badge');
+
+    loading.style.display = 'block';
+    content.style.display = 'none';
+    badge.style.display = 'none';
+
+    /* Monta contexto da carteira atual */
+    let contextoCarteira = 'Carteira atual: sem ativos cadastrados.';
+    if(carteiraAtivos.length > 0) {
+      const linhas = carteiraAtivos.map(a => {
+        const cot = cotacoesCache[a.ticker];
+        const cotStr = cot ? `cotação atual R$ ${cot.price.toFixed(2)}, variação hoje ${fmtPct(cot.changePercent)}` : 'cotação não carregada';
+        return `- ${a.ticker}: ${a.qtd} unidades, PM R$ ${a.pm.toFixed(2)}, ${cotStr}`;
+      });
+      contextoCarteira = 'Carteira atual do usuário:\n' + linhas.join('\n');
+    }
+
+    /* Cotações disponíveis no cache */
+    const cotacoesDisponiveis = Object.entries(cotacoesCache).map(([t,d]) =>
+      `${t}: R$ ${d.price.toFixed(2)} (${fmtPct(d.changePercent)} hoje) — ${d.name}`
+    ).join('\n');
+
+    const prompt = `Você é um assessor de investimentos especializado em aposentadoria no Brasil, com profundo conhecimento do mercado B3, Tesouro Direto, FIIs e previdência privada.
+
+PERFIL DO INVESTIDOR:
+- Idade: ${idade} anos
+- Perfil de risco: ${perfil}
+- Prazo até aposentadoria: ${prazo} anos
+- Meta de patrimônio: ${meta}
+- Aporte mensal disponível: ${aporte}
+- Benefício INSS estimado: ${inss}
+
+${contextoCarteira}
+
+COTAÇÕES B3 DISPONÍVEIS AGORA:
+${cotacoesDisponiveis || 'Dados não carregados — faça recomendações genéricas baseadas no perfil.'}
+
+Gere um REBALANCEAMENTO MENSAL personalizado para ABRIL DE 2026. Estruture sua resposta em seções HTML simples usando apenas <strong>, <br>, <ul>, <li>, <span> e divs simples — sem markdown. Inclua:
+
+1. 📊 Diagnóstico rápido da carteira atual (se houver ativos, comente o desempenho)
+2. 🎯 Alocação sugerida para este mês (em % por classe de ativo)
+3. 📌 3 a 5 ativos específicos para comprar/reforçar agora com justificativa breve
+4. ⚠️ 1 ponto de atenção do mercado brasileiro em abril/2026
+5. 💡 1 ação concreta para fazer ainda este mês
+
+Seja objetivo, prático e específico para o perfil ${perfil}. Mencione nomes reais de ativos da B3 (ex: PETR4, MXRF11, Tesouro RendA+2045, etc.). Máximo 400 palavras.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user', content:prompt}]
+        })
+      });
+      const data = await res.json();
+      const texto = data.content?.map(b => b.text||'').join('') || 'Não foi possível gerar a análise.';
+
+      loading.style.display = 'none';
+      content.style.display = 'block';
+      content.style.color = 'var(--charcoal)';
+      content.innerHTML = texto;
+      badge.style.display = 'inline-block';
+
+    } catch(err) {
+      loading.style.display = 'none';
+      content.style.display = 'block';
+      content.innerHTML = `<span style="color:var(--red-soft);">⚠️ Erro ao conectar com a IA. Tente novamente.</span>`;
+    }
+  }
+
+  /* ───────────── RESUMO ───────────── */
+  function updateSummary() {
+    const renda = parseFloat(document.getElementById('renda-slider').value);
+    const inss = parseFloat(document.getElementById('inss-slider').value);
+    const meta = parseFloat(document.getElementById('meta-slider').value);
+    const aporte = parseFloat(document.getElementById('aporte-val').textContent.replace(/[^\d]/g,''));
+    const prazo = parseFloat(document.getElementById('prazo-slider').value);
+    const idade = parseInt(document.getElementById('idade').value) || 35;
+
+    document.getElementById('s-beneficio').textContent = fmt(inss);
+    document.getElementById('s-renda').textContent = fmt(renda);
+    document.getElementById('s-patrimonio').textContent = fmt(meta);
+    document.getElementById('s-aporte').textContent = fmt(aporte) + '/mês';
+
+    const idadeApos = idade + prazo;
+    const timeline = document.getElementById('timeline');
+    timeline.innerHTML = `
+      <div style="position:relative;padding-left:2rem;">
+        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,0.1))"></div>
+        ${[
+          {yr:'Agora ('+idade+' anos)', txt:'Início da jornada. Configure aportes mensais automáticos de '+fmt(aporte)+'. Baixe o Meu INSS e verifique o CNIS.', active:true},
+          {yr:'Em '+Math.round(prazo*0.33)+' anos ('+(idade+Math.round(prazo*0.33))+' anos)', txt:'Reavalie a carteira. Rebalanceie conforme perfil de risco. Verifique se o aporte precisa ser corrigido pela inflação.'},
+          {yr:'Em '+Math.round(prazo*0.66)+' anos ('+(idade+Math.round(prazo*0.66))+' anos)', txt:'Fase pré-aposentadoria. Migre gradualmente para ativos mais conservadores (Tesouro RendA+). Reduza exposição à renda variável.'},
+          {yr:'Aposentadoria ('+idadeApos+' anos)', txt:'Meta: '+fmt(meta)+' de patrimônio acumulado. Benefício INSS de '+fmt(inss)+' + renda da carteira. Liberdade financeira conquistada.', gold:true},
+        ].map(item => `
+          <div style="margin-bottom:1.5rem;position:relative;">
+            <div style="position:absolute;left:-1.7rem;top:4px;width:12px;height:12px;border-radius:50%;background:${item.gold ? 'var(--gold)' : item.active ? 'var(--dark)' : 'rgba(26,26,24,0.15)'};border:2px solid ${item.gold ? 'var(--gold)' : item.active ? 'var(--gold)' : '#ddd'}"></div>
+            <div style="font-size:0.75rem;font-weight:600;color:${item.gold ? 'var(--gold)' : 'var(--warm-gray)'};text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">${item.yr}</div>
+            <div style="font-size:0.875rem;color:var(--charcoal);line-height:1.6;">${item.txt}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  function toggleCheck(el) { el.classList.toggle('checked'); }
+
+  /* ───────────── AUTH ───────────── */
+  function openAuth(tab = 'login') {
+    document.getElementById('auth-overlay').classList.add('open');
+    switchAuthTab(tab);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAuth() {
+    document.getElementById('auth-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('auth-overlay')) closeAuth();
+  }
+
+  function switchAuthTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('form-' + tab).classList.add('active');
+  }
+
+  function socialLogin(provider) {
+    // Simulate social login
+    const fakeUser = { name: 'Usuário ' + provider, email: 'usuario@' + provider.toLowerCase() + '.com' };
+    loginSuccess(fakeUser);
+  }
+
+  function submitLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    const okEl = document.getElementById('login-success');
+    errEl.style.display = 'none';
+    okEl.style.display = 'none';
+
+    if (!email || !email.includes('@')) {
+      errEl.textContent = 'Informe um e-mail válido.';
+      errEl.style.display = 'block'; return;
+    }
+    if (pass.length < 6) {
+      errEl.textContent = 'Senha deve ter ao menos 6 caracteres.';
+      errEl.style.display = 'block'; return;
+    }
+
+    // Check localStorage for registered user
+    const stored = JSON.parse(localStorage.getItem('pl_users') || '{}');
+    if (stored[email] && stored[email].password === pass) {
+      loginSuccess({ name: stored[email].name, email });
+    } else if (stored[email]) {
+      errEl.textContent = 'Senha incorreta.';
+      errEl.style.display = 'block';
+    } else {
+      // Auto-create for demo
+      const name = email.split('@')[0];
+      loginSuccess({ name, email });
+    }
+  }
+
+  function submitSignup() {
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const pass = document.getElementById('signup-password').value;
+    const errEl = document.getElementById('signup-error');
+    const okEl = document.getElementById('signup-success');
+    errEl.style.display = 'none';
+    okEl.style.display = 'none';
+
+    if (name.length < 2) { errEl.textContent = 'Informe seu nome.'; errEl.style.display = 'block'; return; }
+    if (!email.includes('@')) { errEl.textContent = 'E-mail inválido.'; errEl.style.display = 'block'; return; }
+    if (pass.length < 8) { errEl.textContent = 'Senha deve ter ao menos 8 caracteres.'; errEl.style.display = 'block'; return; }
+
+    // Save in localStorage
+    const stored = JSON.parse(localStorage.getItem('pl_users') || '{}');
+    if (stored[email]) { errEl.textContent = 'Este e-mail já está cadastrado.'; errEl.style.display = 'block'; return; }
+    stored[email] = { name, password: pass };
+    localStorage.setItem('pl_users', JSON.stringify(stored));
+
+    okEl.textContent = '✓ Conta criada com sucesso! Entrando...';
+    okEl.style.display = 'block';
+    setTimeout(() => loginSuccess({ name, email }), 1200);
+  }
+
+  function loginSuccess(user) {
+    currentUser = user;
+    localStorage.setItem('pl_current_user', JSON.stringify(user));
+    document.getElementById('nav-guest').style.display = 'none';
+    const navUser = document.getElementById('nav-user');
+    navUser.style.display = 'flex';
+    document.getElementById('nav-username').textContent = user.name.split(' ')[0];
+    const saveBtnSummary = document.getElementById('btn-salvar-perfil');
+    if (saveBtnSummary) saveBtnSummary.style.display = 'inline-flex';
+    setTimeout(closeAuth, 800);
+    setTimeout(() => loadClientDataIntoForm(user.email), 1000);
+  }
+
+  function logoutUser() {
+    if (!confirm('Sair da conta?')) return;
+    currentUser = null;
+    localStorage.removeItem('pl_current_user');
+    document.getElementById('nav-guest').style.display = 'flex';
+    document.getElementById('nav-user').style.display = 'none';
+    closeDbPanel();
+  }
+
+  /* ═══════════════════════════════════════════
+     BANCO DE DADOS DE CLIENTES
+  ═══════════════════════════════════════════ */
+
+  function openDbPanel() {
+    document.getElementById('db-panel').classList.add('open');
+    document.getElementById('db-overlay').classList.add('open');
+    renderDbPanel();
+  }
+
+  function closeDbPanel() {
+    document.getElementById('db-panel').classList.remove('open');
+    document.getElementById('db-overlay').classList.remove('open');
+  }
+
+  function getClientData() {
+    const idade = parseInt(document.getElementById('idade').value) || 35;
+    const genero = document.getElementById('genero').value;
+    const contrib = parseInt(document.getElementById('contribuicao').value) || 0;
+    const salario = parseFloat(document.getElementById('salario').value) || 0;
+    const renda = parseFloat(document.getElementById('renda-slider').value) || 0;
+    const inss = parseFloat(document.getElementById('inss-slider').value) || 0;
+    const meta = parseFloat(document.getElementById('meta-slider').value) || 0;
+    const prazo = parseFloat(document.getElementById('prazo-slider').value) || 20;
+    const retorno = parseFloat(document.getElementById('retorno-slider').value) || 8;
+    const perfil = document.getElementById('cart-perfil') ? document.getElementById('cart-perfil').value : 'moderado';
+    const aporteEl = document.getElementById('aporte-val');
+    const aporte = aporteEl ? parseFloat(aporteEl.textContent.replace(/[^\d]/g,'')) || 0 : 0;
+
+    return { idade, genero, contrib, salario, renda, inss, meta, prazo, retorno, perfil, aporte };
+  }
+
+  function saveClientProfile() {
+    if (!currentUser) { alert('Faça login para salvar.'); return; }
+    const data = getClientData();
+    const key = 'client:' + currentUser.email;
+    const profile = {
+      name: currentUser.name,
+      email: currentUser.email,
+      savedAt: new Date().toISOString(),
+      acessos: (getStoredClients()[currentUser.email]?.acessos || 0) + 1,
+      ultimoAcesso: new Date().toISOString(),
+      carteira: carteiraAtivos,
+      ...data
+    };
+    const all = getStoredClients();
+    all[currentUser.email] = profile;
+    localStorage.setItem('pl_clientes_db', JSON.stringify(all));
+    showToast('✓ Perfil de ' + currentUser.name.split(' ')[0] + ' salvo!');
+    renderDbPanel();
+  }
+
+  function getStoredClients() {
+    try { return JSON.parse(localStorage.getItem('pl_clientes_db') || '{}'); } catch(e) { return {}; }
+  }
+
+  function loadClientDataIntoForm(email) {
+    const all = getStoredClients();
+    const p = all[email];
+    if (!p) return;
+    // Update last access
+    p.ultimoAcesso = new Date().toISOString();
+    p.acessos = (p.acessos || 0) + 1;
+    all[email] = p;
+    localStorage.setItem('pl_clientes_db', JSON.stringify(all));
+
+    // Fill form fields
+    if (p.idade) document.getElementById('idade').value = p.idade;
+    if (p.genero) document.getElementById('genero').value = p.genero;
+    if (p.contrib) document.getElementById('contribuicao').value = p.contrib;
+    if (p.salario) document.getElementById('salario').value = p.salario;
+    if (p.renda) { document.getElementById('renda-slider').value = p.renda; }
+    if (p.meta) { document.getElementById('meta-slider').value = p.meta; }
+    if (p.prazo) { document.getElementById('prazo-slider').value = p.prazo; }
+    if (p.retorno) { document.getElementById('retorno-slider').value = p.retorno; }
+    // Restaura carteira do cliente se existir
+    if (p.carteira && Array.isArray(p.carteira) && p.carteira.length > 0) {
+      carteiraAtivos = p.carteira;
+      salvarCarteiraLocal();
+      renderCarteiraTable();
+      if (carteiraAtivos.length > 0) setTimeout(() => atualizarCotacoesCarteira(), 600);
+    }
+    updateSimulacao();
+    updateAporte();
+    showToast('📂 Perfil carregado automaticamente');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('db-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function deleteClient(email) {
+    if (!confirm('Remover este cliente do banco de dados?')) return;
+    const all = getStoredClients();
+    delete all[email];
+    localStorage.setItem('pl_clientes_db', JSON.stringify(all));
+    renderDbPanel();
+    showToast('Cliente removido.');
+  }
+
+  function renderDbPanel() {
+    const all = getStoredClients();
+    const emails = Object.keys(all);
+
+    // Current user section
+    const curEl = document.getElementById('db-current-profile');
+    const saveBtn = document.getElementById('db-save-btn');
+    if (currentUser) {
+      const p = all[currentUser.email];
+      const data = getClientData();
+      saveBtn.style.display = 'block';
+      if (p) {
+        const dt = new Date(p.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short',year:'numeric'});
+        curEl.innerHTML = `
+          <div class="db-stat-row"><span>Nome</span><strong>${p.name}</strong></div>
+          <div class="db-stat-row"><span>E-mail</span><strong style="font-size:0.75rem">${p.email}</strong></div>
+          <div class="db-stat-row"><span>Perfil</span><strong>${p.perfil || '—'}</strong></div>
+          <div class="db-stat-row"><span>Idade</span><strong>${p.idade} anos</strong></div>
+          <div class="db-stat-row"><span>Meta patrimonial</span><strong>${fmt(p.meta)}</strong></div>
+          <div class="db-stat-row"><span>Aporte mensal</span><strong>${fmt(p.aporte)}</strong></div>
+          <div class="db-stat-row"><span>Prazo</span><strong>${p.prazo} anos</strong></div>
+          <div class="db-stat-row"><span>Acessos</span><strong>${p.acessos}x</strong></div>
+          <div class="db-stat-row"><span>Salvo em</span><strong>${dt}</strong></div>`;
+      } else {
+        curEl.innerHTML = `<p style="font-size:0.82rem;color:var(--warm-gray);">Dados de <strong>${currentUser.name}</strong> ainda não salvos. Clique em salvar abaixo.</p>`;
+      }
+    } else {
+      saveBtn.style.display = 'none';
+      curEl.innerHTML = `<p style="font-size:0.8rem;color:var(--warm-gray);">Faça login para salvar seu perfil.</p>`;
+    }
+
+    // All clients list
+    const listEl = document.getElementById('db-clients-list');
+    if (emails.length === 0) {
+      listEl.innerHTML = `<div class="db-empty">📭 Nenhum cliente cadastrado ainda.<br><span style="font-size:0.75rem">Os dados são salvos localmente neste navegador.</span></div>`;
+      return;
+    }
+
+    const perfilColors = { conservador: '#2E6B4F', moderado: '#2A4E7A', arrojado: '#8B3A3A' };
+    listEl.innerHTML = emails.map(email => {
+      const p = all[email];
+      const isActive = currentUser && currentUser.email === email;
+      const dt = new Date(p.ultimoAcesso || p.savedAt).toLocaleDateString('pt-BR', {day:'2-digit',month:'short'});
+      const pc = perfilColors[p.perfil] || '#7A7970';
+      return `
+        <div class="db-profile-card ${isActive ? 'active' : ''}" onclick="selectClient('${email}')">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+            <div>
+              <div class="db-profile-name">${p.name}</div>
+              <div class="db-profile-email">${p.email}</div>
+            </div>
+            <button onclick="event.stopPropagation();deleteClient('${email}')" style="background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:0.75rem;padding:0 4px;" title="Remover">✕</button>
+          </div>
+          <div class="db-profile-tags">
+            <span class="db-tag gold">${p.idade} anos</span>
+            <span class="db-tag" style="background:rgba(${pc.slice(1).match(/../g).map(x=>parseInt(x,16)).join(',')},0.12);color:${pc};">${p.perfil || 'n/d'}</span>
+            <span class="db-tag">${fmt(p.meta)}</span>
+            <span class="db-tag" style="opacity:0.7;">Acesso: ${dt}</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function selectClient(email) {
+    // Load client data into form (assessor viewing a client's data)
+    loadClientDataIntoForm(email);
+    closeDbPanel();
+    showToast('📋 Dados do cliente carregados no formulário');
+  }
+
+  // Restore session on load
+  (function restoreSession() {
+    const saved = localStorage.getItem('pl_current_user');
+    if (saved) {
+      try {
+        const user = JSON.parse(saved);
+        currentUser = user;
+        document.getElementById('nav-guest').style.display = 'none';
+        const navUser = document.getElementById('nav-user');
+        navUser.style.display = 'flex';
+        document.getElementById('nav-username').textContent = user.name.split(' ')[0];
+        const saveBtnSummary = document.getElementById('btn-salvar-perfil');
+        if (saveBtnSummary) saveBtnSummary.style.display = 'inline-flex';
+        setTimeout(() => loadClientDataIntoForm(user.email), 500);
+      } catch(e) {}
+    }
+  })();
+
+  /* ───────────── PORTFOLIO PROPOSAL ───────────── */
+  function injectProposalCard() {
+    if (document.getElementById('portfolio-proposal')) return;
+    const tpl = document.getElementById('tpl-portfolio-proposal');
+    const section3 = document.getElementById('section-3');
+    const firstCard = section3.querySelector('.card');
+    const clone = tpl.content.cloneNode(true);
+    section3.insertBefore(clone, firstCard);
+    gerarPropostaCarteira();
+  }
+
+  async function gerarPropostaCarteira() {
+    const perfil = document.getElementById('cart-perfil').value;
+    const prazo = document.getElementById('prazo-slider').value;
+    const aporte = document.getElementById('aporte-val').textContent;
+    const meta = document.getElementById('meta-val').textContent;
+    const idade = document.getElementById('idade').value;
+
+    const loading = document.getElementById('proposal-loading');
+    const content = document.getElementById('proposal-content');
+    if (!loading || !content) return;
+
+    loading.style.display = 'block';
+    content.style.display = 'none';
+
+    // Build allocation based on profile
+    const allocations = {
+      conservador: [
+        { label: 'Tesouro IPCA+', pct: 40, color: '#2E6B4F' },
+        { label: 'Tesouro RendA+', pct: 25, color: '#4A9B72' },
+        { label: 'FIIs de Renda', pct: 20, color: '#C9A84C' },
+        { label: 'Previdência PGBL', pct: 10, color: '#7A7970' },
+        { label: 'Ações Dividendos', pct: 5, color: '#2A4E7A' }
+      ],
+      moderado: [
+        { label: 'Tesouro IPCA+', pct: 25, color: '#2E6B4F' },
+        { label: 'FIIs de Renda', pct: 30, color: '#C9A84C' },
+        { label: 'Ações Dividendos', pct: 25, color: '#2A4E7A' },
+        { label: 'Previdência PGBL', pct: 10, color: '#7A7970' },
+        { label: 'Tesouro RendA+', pct: 10, color: '#4A9B72' }
+      ],
+      arrojado: [
+        { label: 'Ações Dividendos', pct: 40, color: '#2A4E7A' },
+        { label: 'FIIs de Renda', pct: 30, color: '#C9A84C' },
+        { label: 'Tesouro IPCA+', pct: 15, color: '#2E6B4F' },
+        { label: 'Small Caps B3', pct: 10, color: '#8B3A3A' },
+        { label: 'Previdência PGBL', pct: 5, color: '#7A7970' }
+      ]
+    };
+
+    const alloc = allocations[perfil] || allocations.moderado;
+    const tickerSuggestions = {
+      conservador: ['TESOURO IPCA+ 2045', 'MXRF11', 'XPLG11', 'HGLG11', 'PGBL Icatu Vanguarda'],
+      moderado: ['MXRF11', 'XPLG11', 'PETR4', 'VALE3', 'ITUB4', 'HGRE11', 'TESOURO IPCA+ 2035'],
+      arrojado: ['PETR4', 'VALE3', 'ITUB4', 'BBAS3', 'MXRF11', 'XPLG11', 'EGIE3', 'TAEE11']
+    };
+
+    // Render allocation bars
+    const barsEl = document.getElementById('alloc-bars');
+    if (barsEl) {
+      barsEl.innerHTML = `
+        <div style="font-size:0.8rem;font-weight:600;color:var(--charcoal);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Alocação sugerida · perfil ${perfil}</div>
+        <div class="alloc-bar">
+          ${alloc.map(a => `<div class="alloc-segment" style="width:${a.pct}%;background:${a.color};" title="${a.label}: ${a.pct}%"></div>`).join('')}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem 1.25rem;margin-top:0.6rem;">
+          ${alloc.map(a => `<div style="display:flex;align-items:center;gap:5px;font-size:0.75rem;color:var(--charcoal);">
+            <div style="width:10px;height:10px;border-radius:2px;background:${a.color};flex-shrink:0;"></div>
+            ${a.label} <strong>${a.pct}%</strong>
+          </div>`).join('')}
+        </div>`;
+    }
+
+    // Render ticker suggestions
+    const tickEl = document.getElementById('proposal-tickers');
+    if (tickEl) {
+      const tickers = tickerSuggestions[perfil] || tickerSuggestions.moderado;
+      tickEl.innerHTML = `
+        <div style="font-size:0.8rem;font-weight:600;color:var(--charcoal);margin:1.25rem 0 0.6rem;text-transform:uppercase;letter-spacing:0.05em;">Ativos recomendados para ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+          ${tickers.map(t => `<span style="background:var(--gold-pale);color:#7A5A10;border:1px solid rgba(201,168,76,0.3);border-radius:6px;padding:4px 10px;font-size:0.78rem;font-weight:600;">${t}</span>`).join('')}
+        </div>`;
+    }
+
+    // Call AI for text analysis
+    const prompt = `Você é um assessor de investimentos especializado em aposentadoria no Brasil. 
+
+Perfil do investidor: ${perfil}, ${idade} anos, prazo ${prazo} anos, aporte disponível ${aporte}, meta ${meta}.
+
+Cotações B3 disponíveis: ${Object.entries(cotacoesCache).slice(0,8).map(([t,d])=>`${t}: R$${d.price?.toFixed(2)} (${d.changePercent>=0?'+':''}${d.changePercent?.toFixed(2)}%)`).join(', ') || 'dados não carregados'}
+
+Gere em 3 parágrafos curtos (máximo 120 palavras no total), sem markdown, sem listas:
+1. Justificativa da alocação ${perfil} para este mês
+2. Um ativo específico para priorizar agora e por quê  
+3. Uma ação prática para fazer ainda esta semana
+
+Seja direto e objetivo.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 300,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const texto = data.content?.map(b => b.text || '').join('') || '';
+      const aiEl = document.getElementById('proposal-ai-text');
+      if (aiEl) aiEl.innerHTML = texto.replace(/\n/g, '<br>');
+    } catch(e) {
+      const aiEl = document.getElementById('proposal-ai-text');
+      if (aiEl) aiEl.innerHTML = `<span style="color:var(--warm-gray);">Configure sua carteira e clique em "Gerar rebalanceamento mensal com IA" para análise detalhada.</span>`;
+    }
+
+    loading.style.display = 'none';
+    content.style.display = 'block';
+    document.getElementById('proposal-subtitle').textContent =
+      `Proposta mensal personalizada · ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'})} · perfil ${perfil}`;
+  }
+
+  /* ───────────── INIT ───────────── */
+  carregarCarteiraLocal();
+  renderCarteiraTable();
+  updateSimulacao();
+  updateAporte();
+</script>
+
+<!-- ─── AUTH MODAL ─── -->
+<div class="auth-overlay" id="auth-overlay" onclick="handleOverlayClick(event)">
+  <div class="auth-card">
+    <button class="auth-close" onclick="closeAuth()" title="Fechar">✕</button>
+    <div class="auth-logo">Plano Livre</div>
+    <div class="auth-tagline">Sua jornada rumo à liberdade financeira</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Entrar</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Criar conta</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="auth-form active" id="form-login">
+      <div class="auth-error" id="login-error"></div>
+      <div class="auth-success" id="login-success"></div>
+      <div class="auth-social">
+        <button class="auth-social-btn" onclick="socialLogin('Google')">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.27 9.77a7.2 7.2 0 0 1 11.45-2.9l2.7-2.7a12 12 0 1 0 3.22 11.18H12v-3.6h8.77a8.4 8.4 0 0 1-1.3 3.9l2.78 2.78A12 12 0 0 0 24 12c0-.66-.06-1.32-.16-1.96z" opacity=".4"/><path fill="#34A853" d="M5.27 14.23 2.5 16.93A12 12 0 0 0 12 24v-4.8a7.2 7.2 0 0 1-6.73-4.97z"/><path fill="#4285F4" d="M12 4.8V0A12 12 0 0 0 2.5 7.07l2.77 2.7A7.2 7.2 0 0 1 12 4.8z"/><path fill="#FBBC05" d="M5.27 9.77 2.5 7.07A12 12 0 0 0 0 12c0 1.74.37 3.38 1.04 4.86l2.73-2.63a7.2 7.2 0 0 1 1.5-4.46z"/></svg>
+          Google
+        </button>
+        <button class="auth-social-btn" onclick="socialLogin('Apple')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
+          Apple
+        </button>
+      </div>
+      <div class="auth-divider">ou continue com e-mail</div>
+      <div class="auth-field">
+        <label>E-mail</label>
+        <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label>Senha</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitLogin()">
+      </div>
+      <div style="text-align:right;margin:-0.5rem 0 1rem;"><a href="#" style="font-size:0.75rem;color:var(--warm-gray);" onclick="return false;">Esqueci minha senha</a></div>
+      <button class="auth-submit" onclick="submitLogin()">Entrar na conta</button>
+      <div class="auth-skip">Não tem conta? <a onclick="switchAuthTab('signup')">Criar agora</a></div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="auth-form" id="form-signup">
+      <div class="auth-error" id="signup-error"></div>
+      <div class="auth-success" id="signup-success"></div>
+      <div class="auth-social">
+        <button class="auth-social-btn" onclick="socialLogin('Google')">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.27 9.77a7.2 7.2 0 0 1 11.45-2.9l2.7-2.7a12 12 0 1 0 3.22 11.18H12v-3.6h8.77a8.4 8.4 0 0 1-1.3 3.9l2.78 2.78A12 12 0 0 0 24 12c0-.66-.06-1.32-.16-1.96z" opacity=".4"/><path fill="#34A853" d="M5.27 14.23 2.5 16.93A12 12 0 0 0 12 24v-4.8a7.2 7.2 0 0 1-6.73-4.97z"/><path fill="#4285F4" d="M12 4.8V0A12 12 0 0 0 2.5 7.07l2.77 2.7A7.2 7.2 0 0 1 12 4.8z"/><path fill="#FBBC05" d="M5.27 9.77 2.5 7.07A12 12 0 0 0 0 12c0 1.74.37 3.38 1.04 4.86l2.73-2.63a7.2 7.2 0 0 1 1.5-4.46z"/></svg>
+          Google
+        </button>
+        <button class="auth-social-btn" onclick="socialLogin('Apple')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/></svg>
+          Apple
+        </button>
+      </div>
+      <div class="auth-divider">ou preencha os dados</div>
+      <div class="auth-field">
+        <label>Nome completo</label>
+        <input type="text" id="signup-name" placeholder="Seu nome" autocomplete="name">
+      </div>
+      <div class="auth-field">
+        <label>E-mail</label>
+        <input type="email" id="signup-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label>Senha <span style="color:var(--warm-gray);font-weight:300;">(mín. 8 caracteres)</span></label>
+        <input type="password" id="signup-password" placeholder="••••••••" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitSignup()">
+      </div>
+      <div style="font-size:0.72rem;color:var(--warm-gray);margin-bottom:1rem;">
+        Ao criar a conta você concorda com os <a href="#" style="color:var(--gold);" onclick="return false;">Termos de uso</a>.
+      </div>
+      <button class="auth-submit" onclick="submitSignup()">Criar minha conta</button>
+      <div class="auth-skip">Já tem conta? <a onclick="switchAuthTab('login')">Entrar</a> · <a onclick="closeAuth()">Continuar sem conta</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PORTFOLIO PROPOSAL CARD (injected into Section 3) ─── -->
+<template id="tpl-portfolio-proposal">
+  <div class="card portfolio-proposal-card" id="portfolio-proposal" style="margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem;">
+      <div>
+        <div class="card-title">💼 Carteira Sugerida pela IA</div>
+        <div class="card-sub" id="proposal-subtitle">Proposta mensal personalizada · Abril 2026</div>
+      </div>
+      <button class="btn-dark" style="padding:0.55rem 1rem;font-size:0.8rem;" onclick="gerarPropostaCarteira()">🔄 Atualizar proposta</button>
+    </div>
+    <div id="proposal-loading" style="padding:1.5rem;text-align:center;color:var(--warm-gray);display:none;">
+      <div style="font-size:1.5rem;margin-bottom:0.5rem;">⚙️</div>
+      <div style="font-size:0.875rem;">Gerando proposta personalizada...</div>
+    </div>
+    <div id="proposal-content">
+      <!-- Allocation bars -->
+      <div id="alloc-bars" style="margin-bottom:1.5rem;"></div>
+      <!-- Suggested tickers table -->
+      <div id="proposal-tickers"></div>
+      <!-- AI text -->
+      <div id="proposal-ai-text" style="font-size:0.875rem;color:var(--charcoal);line-height:1.8;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(26,26,24,0.07);"></div>
+    </div>
+  </div>
+</template>
+
+<!-- ─── OPEN FINANCE MODAL ─── -->
+<div class="of-overlay" id="of-overlay" onclick="handleOFOverlayClick(event)">
+  <div class="of-modal" id="of-modal">
+    <div class="of-modal-header">
+      <div class="of-modal-logo">
+        <div class="of-modal-logo-icon">🏦</div>
+        <div>
+          <div class="of-modal-logo-text">Open Finance Brasil</div>
+          <div class="of-modal-sub">Regulado pelo Banco Central · Seus dados, seu controle</div>
+        </div>
+      </div>
+      <button class="of-modal-close" onclick="closeOFModal()">✕</button>
+    </div>
+    <div class="of-modal-body">
+
+      <!-- STEP 1: Selecionar instituição -->
+      <div class="of-step active" id="of-step-1">
+        <div style="font-size:0.875rem;color:var(--charcoal);margin-bottom:0.75rem;">Selecione a instituição que deseja conectar:</div>
+        <div class="of-search-wrap">
+          <span class="of-search-icon">🔍</span>
+          <input class="of-search-bar" type="text" placeholder="Buscar banco ou corretora..." oninput="filterOFInstitutions(this.value)" id="of-search-input">
+        </div>
+        <div class="of-inst-list" id="of-inst-list">
+          <div class="of-inst-row" onclick="selectOFInstitution('nubank')" data-name="Nubank">
+            <div class="of-inst-logo" style="background:#820AD1;color:white;">💜</div>
+            <div class="of-inst-info"><h4>Nubank</h4><p>Conta corrente · Cartão · Investimentos NuInvest</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('itau')" data-name="Itaú Unibanco">
+            <div class="of-inst-logo" style="background:#EC7000;color:white;">🟠</div>
+            <div class="of-inst-info"><h4>Itaú Unibanco</h4><p>Conta corrente · Poupança · Investimentos · PGBL/VGBL</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('bradesco')" data-name="Bradesco">
+            <div class="of-inst-logo" style="background:#CC092F;color:white;">🔴</div>
+            <div class="of-inst-info"><h4>Bradesco</h4><p>Conta corrente · Poupança · Investimentos · Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('bb')" data-name="Banco do Brasil">
+            <div class="of-inst-logo" style="background:#F7C400;color:#1A1A18;">🟡</div>
+            <div class="of-inst-info"><h4>Banco do Brasil</h4><p>Conta corrente · Poupança · Tesouro Direto · BB Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('xp')" data-name="XP Investimentos">
+            <div class="of-inst-logo" style="background:#1A1A1A;color:white;">⬛</div>
+            <div class="of-inst-info"><h4>XP Investimentos</h4><p>Ações · FIIs · Tesouro · Fundos · Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('inter')" data-name="Banco Inter">
+            <div class="of-inst-logo" style="background:#FF7A00;color:white;">🟧</div>
+            <div class="of-inst-info"><h4>Banco Inter</h4><p>Conta corrente · Inter Invest · CDBs · Tesouro</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('btg')" data-name="BTG Pactual">
+            <div class="of-inst-logo" style="background:#1A1A2E;color:white;">🔷</div>
+            <div class="of-inst-info"><h4>BTG Pactual</h4><p>Conta BTG · Investimentos · Renda Fixa · Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('c6')" data-name="C6 Bank">
+            <div class="of-inst-logo" style="background:#222;color:white;">⚫</div>
+            <div class="of-inst-info"><h4>C6 Bank</h4><p>Conta corrente · C6 Invest · CDBs</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('caixa')" data-name="Caixa Econômica Federal">
+            <div class="of-inst-logo" style="background:#0078BD;color:white;">🔵</div>
+            <div class="of-inst-info"><h4>Caixa Econômica Federal</h4><p>Conta corrente · FGTS · Poupança · Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+          <div class="of-inst-row" onclick="selectOFInstitution('santander')" data-name="Santander">
+            <div class="of-inst-logo" style="background:#EB0000;color:white;">🔴</div>
+            <div class="of-inst-info"><h4>Santander</h4><p>Conta corrente · Investimentos · Previdência</p></div>
+            <span class="of-inst-arrow">›</span>
+          </div>
+        </div>
+        <div class="of-security-note">
+          🔒 <span>O compartilhamento usa criptografia de ponta a ponta e expira em 12 meses. Você pode revogar a qualquer momento pelo aplicativo do seu banco.</span>
+        </div>
+      </div>
+
+      <!-- STEP 2: Consentimento -->
+      <div class="of-step" id="of-step-2">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <button onclick="goOFStep(1)" style="background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:1rem;">←</button>
+          <div>
+            <div id="of-consent-bank-name" style="font-weight:600;font-size:0.95rem;color:var(--dark);"></div>
+            <div style="font-size:0.75rem;color:var(--warm-gray);">Autorização de compartilhamento</div>
+          </div>
+        </div>
+        <div class="of-consent-box">
+          <strong style="font-size:0.82rem;display:block;margin-bottom:0.3rem;">O Plano Livre solicita acesso a:</strong>
+          <ul class="of-consent-items">
+            <li>Saldo e extrato das contas corrente e poupança</li>
+            <li>Carteira de investimentos (ações, FIIs, renda fixa, fundos)</li>
+            <li>Planos de previdência privada (PGBL/VGBL)</li>
+            <li>Informações cadastrais básicas (sem dados de cartão ou senhas)</li>
+          </ul>
+        </div>
+        <div style="background:var(--gold-pale);border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-sm);padding:0.9rem 1rem;font-size:0.8rem;color:#5A4008;margin-bottom:0.75rem;">
+          <strong>⏱ Validade:</strong> 12 meses · Você pode revogar a qualquer momento no app do seu banco em <em>Open Finance → Permissões</em>.
+        </div>
+        <div style="font-size:0.8rem;color:var(--charcoal);line-height:1.6;">
+          Ao continuar, você será direcionado para o ambiente seguro do <strong id="of-consent-bank-name-2"></strong> para confirmar o consentimento.
+        </div>
+        <button class="of-btn-primary" onclick="goOFStep(3)">Autorizar e continuar →</button>
+        <button class="of-btn-secondary" onclick="goOFStep(1)">Voltar</button>
+      </div>
+
+      <!-- STEP 3: Carregando -->
+      <div class="of-step" id="of-step-3">
+        <div class="of-loading-wrap">
+          <div class="of-spinner"></div>
+          <div style="font-size:0.95rem;font-weight:500;color:var(--dark);margin-bottom:0.25rem;">Importando dados…</div>
+          <div style="font-size:0.8rem;color:var(--warm-gray);margin-bottom:1.5rem;">Conectando com segurança ao Open Finance Brasil</div>
+          <div class="of-progress-steps" id="of-progress-steps">
+            <div class="of-prog-item active" id="prog-0"><div class="of-prog-icon">●</div><span>Autenticação com consentimento</span></div>
+            <div class="of-prog-item pending" id="prog-1"><div class="of-prog-icon">○</div><span>Importando contas e saldos</span></div>
+            <div class="of-prog-item pending" id="prog-2"><div class="of-prog-icon">○</div><span>Importando carteira de investimentos</span></div>
+            <div class="of-prog-item pending" id="prog-3"><div class="of-prog-icon">○</div><span>Importando previdência privada</span></div>
+            <div class="of-prog-item pending" id="prog-4"><div class="of-prog-icon">○</div><span>Integrando com sua carteira</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Sucesso -->
+      <div class="of-step" id="of-step-4">
+        <div style="text-align:center;padding:1rem 0 0.5rem;">
+          <div class="of-success-icon">✅</div>
+          <div style="font-size:1.05rem;font-weight:600;color:var(--dark);margin-bottom:0.35rem;" id="of-success-bank-name">Nubank conectado!</div>
+          <div style="font-size:0.82rem;color:var(--warm-gray);margin-bottom:1.25rem;">Seus dados foram importados e sua carteira foi atualizada.</div>
+        </div>
+        <div style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--charcoal);margin-bottom:0.5rem;">Dados importados</div>
+        <div class="of-imported-items" id="of-imported-items"></div>
+        <div class="of-security-note">
+          🔒 <span>Conexão protegida por criptografia bancária · Expira em 12 meses · Revogue no app do banco</span>
+        </div>
+        <button class="of-btn-primary" onclick="finalizarConexaoOF()">Ver minha carteira atualizada</button>
+        <button class="of-btn-secondary" onclick="goOFStep(1)">Conectar outra instituição</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   OPEN FINANCE BRASIL — Integração Simulada
+   ════════════════════════════════════════════ */
+
+const OF_INSTITUTIONS = {
+  nubank: {
+    name: 'Nubank', color: '#820AD1', emoji: '💜',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Nubank', val: 4870.32, tag: '💜 Nu', tagColor: '#820AD1' },
+      { type: 'invest', label: 'NuInvest · CDB 100% CDI', bank: 'Nubank', val: 18500.00, tag: '📈 Investimento', tagColor: '#2A4E7A' },
+      { type: 'invest', label: 'NuInvest · Tesouro IPCA+ 2035', bank: 'Nubank', val: 12400.00, tag: '📈 Investimento', tagColor: '#2E6B4F' },
+    ]
+  },
+  itau: {
+    name: 'Itaú Unibanco', color: '#EC7000', emoji: '🟠',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Itaú', val: 3250.80, tag: '🟠 Itaú', tagColor: '#EC7000' },
+      { type: 'savings', label: 'Poupança', bank: 'Itaú', val: 8900.00, tag: '💰 Poupança', tagColor: '#7A7970' },
+      { type: 'invest', label: 'Fundos Multimercado', bank: 'Itaú', val: 42000.00, tag: '📊 Fundo', tagColor: '#2A4E7A' },
+      { type: 'pension', label: 'PGBL Itaú Vanguarda', bank: 'Itaú', val: 67800.00, tag: '🏛 Previdência', tagColor: '#7B5EA7' },
+    ]
+  },
+  bradesco: {
+    name: 'Bradesco', color: '#CC092F', emoji: '🔴',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Bradesco', val: 1640.50, tag: '🔴 Bradesco', tagColor: '#CC092F' },
+      { type: 'invest', label: 'CDB 110% CDI', bank: 'Bradesco', val: 25000.00, tag: '📈 Investimento', tagColor: '#2A4E7A' },
+      { type: 'pension', label: 'VGBL Bradesco Saúde', bank: 'Bradesco', val: 38500.00, tag: '🏛 Previdência', tagColor: '#7B5EA7' },
+    ]
+  },
+  bb: {
+    name: 'Banco do Brasil', color: '#F7C400', emoji: '🟡',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'BB', val: 5120.00, tag: '🟡 BB', tagColor: '#7A5A10' },
+      { type: 'invest', label: 'Tesouro Direto · RendA+', bank: 'BB', val: 31200.00, tag: '🏦 Tesouro', tagColor: '#2E6B4F' },
+      { type: 'invest', label: 'Ações BBAS3 (240 cotas)', bank: 'BB', val: 14880.00, tag: '📈 Ações', tagColor: '#2A4E7A' },
+    ]
+  },
+  xp: {
+    name: 'XP Investimentos', color: '#1A1A1A', emoji: '⬛',
+    accounts: [
+      { type: 'invest', label: 'Carteira de Ações', bank: 'XP', val: 89400.00, tag: '📈 Ações', tagColor: '#2A4E7A' },
+      { type: 'invest', label: 'FIIs · MXRF11 · XPLG11', bank: 'XP', val: 44700.00, tag: '🏢 FIIs', tagColor: '#C9A84C' },
+      { type: 'pension', label: 'PGBL XP Allocation', bank: 'XP', val: 112000.00, tag: '🏛 Previdência', tagColor: '#7B5EA7' },
+    ]
+  },
+  inter: {
+    name: 'Banco Inter', color: '#FF7A00', emoji: '🟧',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Inter', val: 2890.00, tag: '🟧 Inter', tagColor: '#FF7A00' },
+      { type: 'invest', label: 'Inter Invest · CDB', bank: 'Inter', val: 19600.00, tag: '📈 Investimento', tagColor: '#2A4E7A' },
+    ]
+  },
+  btg: {
+    name: 'BTG Pactual', color: '#1A1A2E', emoji: '🔷',
+    accounts: [
+      { type: 'invest', label: 'Renda Fixa · LCA/LCI', bank: 'BTG', val: 56000.00, tag: '📈 Renda Fixa', tagColor: '#2E6B4F' },
+      { type: 'invest', label: 'Fundo Multimercado BTG', bank: 'BTG', val: 34000.00, tag: '📊 Fundo', tagColor: '#2A4E7A' },
+      { type: 'pension', label: 'Previdência BTG', bank: 'BTG', val: 78000.00, tag: '🏛 Previdência', tagColor: '#7B5EA7' },
+    ]
+  },
+  c6: {
+    name: 'C6 Bank', color: '#222', emoji: '⚫',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'C6', val: 1780.40, tag: '⚫ C6', tagColor: '#555' },
+      { type: 'invest', label: 'C6 Invest · CDB DI', bank: 'C6', val: 11300.00, tag: '📈 Investimento', tagColor: '#2A4E7A' },
+    ]
+  },
+  caixa: {
+    name: 'Caixa Econômica Federal', color: '#0078BD', emoji: '🔵',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Caixa', val: 3400.00, tag: '🔵 Caixa', tagColor: '#0078BD' },
+      { type: 'savings', label: 'Poupança', bank: 'Caixa', val: 6200.00, tag: '💰 Poupança', tagColor: '#7A7970' },
+      { type: 'invest', label: 'Tesouro Direto via Caixa', bank: 'Caixa', val: 22000.00, tag: '🏦 Tesouro', tagColor: '#2E6B4F' },
+    ]
+  },
+  santander: {
+    name: 'Santander', color: '#EB0000', emoji: '🔴',
+    accounts: [
+      { type: 'checking', label: 'Conta Corrente', bank: 'Santander', val: 2100.00, tag: '🔴 Santander', tagColor: '#EB0000' },
+      { type: 'invest', label: 'Fundos Santander', bank: 'Santander', val: 28000.00, tag: '📊 Fundo', tagColor: '#2A4E7A' },
+    ]
+  }
+};
+
+let ofCurrentStep = 1;
+let ofSelectedInstitution = null;
+let ofConnectedInstitutions = {};
+
+function openOFModal(instKey) {
+  const overlay = document.getElementById('of-overlay');
+  overlay.classList.add('open');
+  goOFStep(1);
+  if (instKey && OF_INSTITUTIONS[instKey]) {
+    setTimeout(() => selectOFInstitution(instKey), 100);
+  }
+  document.getElementById('of-search-input').value = '';
+  filterOFInstitutions('');
+}
+
+function closeOFModal() {
+  document.getElementById('of-overlay').classList.remove('open');
+}
+
+function handleOFOverlayClick(e) {
+  if (e.target === document.getElementById('of-overlay')) closeOFModal();
+}
+
+function goOFStep(n) {
+  document.querySelectorAll('.of-step').forEach(el => el.classList.remove('active'));
+  document.getElementById('of-step-' + n).classList.add('active');
+  ofCurrentStep = n;
+}
+
+function filterOFInstitutions(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.of-inst-row').forEach(row => {
+    const name = row.dataset.name ? row.dataset.name.toLowerCase() : '';
+    row.style.display = (!q || name.includes(q)) ? '' : 'none';
+  });
+}
+
+function selectOFInstitution(key) {
+  ofSelectedInstitution = key;
+  const inst = OF_INSTITUTIONS[key];
+  if (!inst) return;
+  document.getElementById('of-consent-bank-name').textContent = inst.name;
+  document.getElementById('of-consent-bank-name-2').textContent = inst.name;
+  goOFStep(2);
+}
+
+async function runOFImportAnimation() {
+  const steps = ['prog-0','prog-1','prog-2','prog-3','prog-4'];
+  const delays = [800, 1100, 1200, 900, 700];
+  for (let i = 0; i < steps.length; i++) {
+    await new Promise(r => setTimeout(r, delays[i]));
+    const el = document.getElementById(steps[i]);
+    el.classList.remove('active','pending');
+    el.classList.add('done');
+    el.querySelector('.of-prog-icon').textContent = '✓';
+    if (i + 1 < steps.length) {
+      const next = document.getElementById(steps[i+1]);
+      next.classList.remove('pending');
+      next.classList.add('active');
+    }
+  }
+  // Show success step
+  await new Promise(r => setTimeout(r, 500));
+  const inst = OF_INSTITUTIONS[ofSelectedInstitution];
+  document.getElementById('of-success-bank-name').textContent = inst.name + ' conectado! 🎉';
+  renderImportedItems(inst.accounts);
+  goOFStep(4);
+}
+
+function renderImportedItems(accounts) {
+  const el = document.getElementById('of-imported-items');
+  el.innerHTML = accounts.map(acc => {
+    const fmtVal = 'R$ ' + acc.val.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    const icons = { checking: '🏦', savings: '💰', invest: '📈', pension: '🏛' };
+    const bgs   = { checking: '#EEF3FA', savings: '#E8F5EE', invest: '#FAF3DC', pension: '#F5EEF8' };
+    return `<div class="of-imported-row">
+      <div class="of-imported-row-left">
+        <div class="of-imported-row-icon" style="background:${bgs[acc.type]||'#F4F1EB'};">${icons[acc.type]||'💼'}</div>
+        <div class="of-imported-row-info">
+          <h5>${acc.label}</h5>
+          <p>${acc.bank}</p>
+        </div>
+      </div>
+      <div class="of-imported-row-val">${fmtVal}</div>
+    </div>`;
+  }).join('');
+}
+
+function finalizarConexaoOF() {
+  const key = ofSelectedInstitution;
+  const inst = OF_INSTITUTIONS[key];
+  if (!inst) return;
+
+  // Save connected institution
+  ofConnectedInstitutions[key] = inst;
+
+  // Update chips in the card
+  const chips = document.getElementById('of-inst-chips');
+  const chip = chips.querySelector(`[onclick="openOFModal('${key}')"]`);
+  if (chip) chip.classList.add('connected');
+
+  // Show status bar
+  const statusBar = document.getElementById('of-status-bar');
+  statusBar.style.display = 'flex';
+  document.getElementById('of-status-bank').textContent = inst.name;
+  const investCount = inst.accounts.filter(a => a.type === 'invest' || a.type === 'pension').length;
+  document.getElementById('of-status-accounts').textContent = `${inst.accounts.length} conta(s) importada(s)`;
+
+  // Render accounts grid
+  const summary = document.getElementById('of-imported-summary');
+  summary.style.display = 'block';
+  renderAccountsGrid();
+
+  // Auto-add investments to carteira
+  autoAddToCarteira(key, inst);
+
+  closeOFModal();
+
+  // Toast
+  if (typeof showToast === 'function') {
+    showToast('✅ ' + inst.name + ' conectado via Open Finance');
+  }
+}
+
+function renderAccountsGrid() {
+  const grid = document.getElementById('of-accounts-grid');
+  const allAccounts = Object.values(ofConnectedInstitutions).flatMap(i => i.accounts);
+  const icons = { checking: '🏦', savings: '💰', invest: '📈', pension: '🏛' };
+  const bgs   = { checking: '#EEF3FA', savings: '#E8F5EE', invest: '#FAF3DC', pension: '#F5EEF8' };
+
+  grid.innerHTML = allAccounts.map(acc => {
+    const fmtVal = 'R$ ' + acc.val.toLocaleString('pt-BR', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    return `<div class="of-account-card ${acc.type}">
+      <div class="of-acc-bank">${acc.bank}</div>
+      <div class="of-acc-type">${acc.label}</div>
+      <div class="of-acc-val">${fmtVal}</div>
+      <span class="of-acc-tag" style="background:${bgs[acc.type]};color:#555;">${icons[acc.type]} ${acc.type === 'checking' ? 'Corrente' : acc.type === 'savings' ? 'Poupança' : acc.type === 'pension' ? 'Previdência' : 'Investimento'}</span>
+    </div>`;
+  }).join('');
+}
+
+function autoAddToCarteira(instKey, inst) {
+  // Map Open Finance assets to carteira format and add
+  const investments = inst.accounts.filter(a => a.type === 'invest' || a.type === 'pension');
+  const ofTickers = {
+    'Tesouro IPCA+ 2035': 'TESOURO IPCA+',
+    'Tesouro RendA+': 'TESOURO RENDA+',
+    'Tesouro Direto · RendA+': 'TESOURO RENDA+',
+    'Tesouro Direto via Caixa': 'TESOURO IPCA+',
+    'Ações BBAS3 (240 cotas)': 'BBAS3',
+    'Carteira de Ações': 'IBOV',
+    'FIIs · MXRF11 · XPLG11': 'MXRF11',
+  };
+
+  investments.forEach(acc => {
+    const ticker = ofTickers[acc.label] || (acc.label.includes('PGBL') || acc.label.includes('VGBL') ? 'PGBL' : acc.bank.toUpperCase().slice(0,4));
+    const qtd = acc.type === 'pension' ? 1 : Math.round(acc.val / 50);
+    const precoMedio = acc.type === 'pension' ? acc.val : 50;
+
+    if (typeof carteira !== 'undefined' && Array.isArray(carteira)) {
+      const exists = carteira.find(c => c.ticker === ticker);
+      if (!exists) {
+        carteira.push({ ticker, qtd, precoMedio, origem: 'openfinance' });
+      }
+    }
+  });
+
+  // Re-render carteira if function available
+  if (typeof renderCarteiraTable === 'function') {
+    setTimeout(() => {
+      renderCarteiraTable();
+      if (typeof atualizarCotacoesCarteira === 'function') {
+        atualizarCotacoesCarteira();
+      }
+    }, 300);
+  }
+}
+
+function disconnectOF() {
+  if (!confirm('Deseja desconectar todas as instituições do Open Finance?')) return;
+  ofConnectedInstitutions = {};
+  document.getElementById('of-status-bar').style.display = 'none';
+  document.getElementById('of-imported-summary').style.display = 'none';
+  document.querySelectorAll('.of-inst-chip').forEach(c => c.classList.remove('connected'));
+  if (typeof showToast === 'function') showToast('🔌 Open Finance desconectado');
+}
+
+// Reset progress when starting loading step
+const _origGoOFStep = goOFStep;
+function goOFStep(n) {
+  document.querySelectorAll('.of-step').forEach(el => el.classList.remove('active'));
+  document.getElementById('of-step-' + n).classList.add('active');
+  ofCurrentStep = n;
+  if (n === 3) {
+    // Reset progress bar
+    ['prog-0','prog-1','prog-2','prog-3','prog-4'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.className = 'of-prog-item ' + (i === 0 ? 'active' : 'pending');
+      el.querySelector('.of-prog-icon').textContent = i === 0 ? '●' : '○';
+    });
+    runOFImportAnimation();
+  }
+}
+</script>
+
+</body>
